@@ -15,18 +15,19 @@ class NavBar extends Component{
     if (this.state.isAuthenticated) {
       rightNav = (
         <ul className="nav navbar-right navbar-nav">
+          <li><Link to="/signout"> Sign Out </Link></li>
+        </ul>
+      )
+    } else {
+      rightNav = (
+        <ul className="nav navbar-right navbar-nav">
           <li><Link to="/signup"> Sign Up </Link></li>
           <li><Link to="/signin"> Sign In </Link></li>
         </ul>
       )
-    } else {
-       rightNav = (
-         <ul className="nav navbar-right navbar-nav">
-           <li><Link to="/signout"> Sign Out </Link></li>
-         </ul>
-       )
     }
-    return(
+    retur
+    n(
       <nav className="navbar navbar-inverse row">
         <div className="container-fluid">
           <div className="navbar-header">
