@@ -4,34 +4,27 @@ import { Link } from "react-router-dom";
 class NavBar extends Component{
   constructor(props){
     super(props)
-    this.state = {isAuthenticated: this.props.isAuthenticated}
-    this.Signin = this.Signin.bind(this)
-    this.SignOut = this.SignOut.bind(this)
+    this.state = {
+      isAuthenticated: this.props.isAuthenticated
+    }
   }
 
-  Signin(){
-    return(
-      <ul className="nav navbar-right navbar-nav">
-        <li><Link to="/signup"> Sign Up </Link></li>
-        <li><Link to="/signin"> Sign In </Link></li>
-      </ul>
-    );
-  }
+  render() {
 
-  SignOut(){
-    return(
-      <ul className="nav navbar-right navbar-nav">
-        <li><Link to="/signout"> Sign Out </Link></li>
-      </ul>
-    )
-  }
-
-  render(){
-    let rightNav;
-    if (this.state.isAuthenticated){
-      rightNav = <this.SignOut/>
+    let rightNav = ''
+    if (this.state.isAuthenticated) {
+      rightNav = (
+        <ul className="nav navbar-right navbar-nav">
+          <li><Link to="/signup"> Sign Up </Link></li>
+          <li><Link to="/signin"> Sign In </Link></li>
+        </ul>
+      )
     } else {
-      rightNav = <this.Signin/>
+       rightNav = (
+         <ul className="nav navbar-right navbar-nav">
+           <li><Link to="/signout"> Sign Out </Link></li>
+         </ul>
+       )
     }
     return(
       <nav className="navbar navbar-inverse row">
