@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { postData } from "../common/requests"
 
 class SignUp extends Component{
   constructor(props){
@@ -15,7 +15,9 @@ class SignUp extends Component{
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.password === this.state.password1 && this.state.password.length > 8){
-      console.log(this.state)
+      var url = 'http://0.0.0.0:5000/api/v2/signup'
+      var data = { 'username': this.state.username, 'email': this.state.email, 'password': this.state.password }
+      postData(url, data)
     } else {
       alert('Ensure passwords match and use more than 8 characters')
     }

@@ -1,25 +1,29 @@
-const access_token = localStorage.get('access_token');
-
-postData = (url, data) => {
-  return fetch(url, {
+const access_token = localStorage.getItem('access_token');
+console.log(access_token)
+const postData = (url, data) => {
+  fetch(url, {
     body: JSON.stringify(data),
-    cache: 'no-cache',
     headers: {
       'Authorization': access_token,
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'Access-Control-Allow-Origin': "*",
     },
     method: 'POST',
     mode: 'cors',
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    success: function (response){
+      console.log('inside', response)
+    }
   })
-  .then(response => response.json())
+  .then( response  => response.json())
   .catch(error => console.error('Error: ', error))
-  .then(response => console.log('Success:', response))
+  .then(response => {
+    console.log('Success:', response.message)
+    localStorage.setItem('access_token', response.access_token)
+  })
   }
 
 
-putData = (url, data) => {
+const putData = (url, data) => {
   return fetch(url,{
     body: JSON.stringify(data),
     cache: 'no-cache',
@@ -37,7 +41,7 @@ putData = (url, data) => {
   .then(response => console.log('Success:', response))
 }
 
-getData = (url) => {
+const getData = (url) => {
   return fetch(url,{
     cache: 'no-cache',
     headers: {
