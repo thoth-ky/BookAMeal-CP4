@@ -20,8 +20,8 @@ class SignIn extends Component{
     event.preventDefault();
     var url = 'http://0.0.0.0:5000/api/v2/signin'
     var data = { 'username': this.state.username, 'password': this.state.password }
-    postData(url, data)
-    console.log('res',)
+    var res = postData(url, data)
+    console.log('res', res)
   }
   render(){
     return(

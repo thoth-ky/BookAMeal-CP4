@@ -17,8 +17,7 @@ const postData = (url, data) => {
   .then( response  => response.json())
   .catch(error => console.error('Error: ', error))
   .then(response => {
-    console.log('Success:', response.message)
-    localStorage.setItem('access_token', response.access_token)
+    console.log('Success:', response)
   })
   }
 
