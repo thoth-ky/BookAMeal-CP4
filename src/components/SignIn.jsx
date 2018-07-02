@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { postData } from "../common/requests"
 
 class SignIn extends Component{
   constructor(props){
@@ -20,9 +19,29 @@ class SignIn extends Component{
     event.preventDefault();
     var url = 'http://0.0.0.0:5000/api/v2/signin'
     var data = { 'username': this.state.username, 'password': this.state.password }
-    var res = postData(url, data)
-    console.log('res', res)
-  }
+    fetch(url, {
+      body: JSON.stringify(data),
+      headers: {
+        'content-type': 'application/json',
+        'Access-Control-Allow-Origin': "*",
+      },
+      method: 'POST',
+      mode: 'cors',
+    })
+    .then((response)  => response.json())
+    .catch(error => console.error('Error: ', error))
+    .then(response => {
+      if( response.status_code === 200){
+        localStorage.setItem('access_token', response.access_token)
+        console.log('Success', response.message)
+      }
+      else{
+        console.log('Success:', response.message)
+      }
+
+    })
+    }
+
   render(){
     return(
       <div>
