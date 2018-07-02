@@ -31,14 +31,14 @@ class SignIn extends Component{
     .then((response)  => response.json())
     .catch(error => console.error('Error: ', error))
     .then(response => {
-      if( response.status_code === 200){
+      if(response.access_token){
         localStorage.setItem('access_token', response.access_token)
         console.log('Success', response.message)
       }
       else{
+        alert('An error occured')
         console.log('Success:', response.message)
       }
-
     })
     }
 
