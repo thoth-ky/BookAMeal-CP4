@@ -10,14 +10,13 @@ class NavBar extends Component{
   }
 
   render() {
-    console.log(this.state)
     let rightNav = ''
     if (this.state.isAuthenticated) {
       rightNav = (
         <ul className="nav navbar-right navbar-nav">
          <li><Link to="/signout"> Sign Out </Link></li>
         </ul>
-     )  
+     )
     } else {
       rightNav = (
         <ul className="nav navbar-right navbar-nav">
