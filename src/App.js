@@ -17,7 +17,7 @@ class App extends Component {
       <Router>
         <div className="container">
           <header>
-            <NavBar isAuthenticated={ false }/>
+            <NavBar isAuthenticated={ authentication }/>
           </header>
           <Switch>
             <Route path="/signup" component={ SignUp }/>
