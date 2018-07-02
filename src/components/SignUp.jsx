@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { postData } from "../common/requests"
 
 class SignUp extends Component{
   constructor(props){
@@ -17,7 +16,27 @@ class SignUp extends Component{
     if (this.state.password === this.state.password1 && this.state.password.length > 8){
       var url = 'http://0.0.0.0:5000/api/v2/signup'
       var data = { 'username': this.state.username, 'email': this.state.email, 'password': this.state.password }
-      postData(url, data)
+      console.log(data)
+      fetch(url, {
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': "*",
+        },
+        method: 'POST',
+        mode: 'cors',
+      })
+      .then((response)  => response.json())
+      .catch(error => console.error('Error: ', error))
+      .then(response => {
+        if (response.access_token) {
+            localStorage.setItem('access_token', response.access_token);
+            console.log('Success', response.message);
+        } else {
+          alert('An error occured')
+          console.log(response.message)
+        }
+      })
     } else {
       alert('Ensure passwords match and use more than 8 characters')
     }
