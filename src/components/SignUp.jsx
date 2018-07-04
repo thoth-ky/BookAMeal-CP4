@@ -14,7 +14,7 @@ class SignUp extends Component{
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.password === this.state.password1 && this.state.password.length > 8){
-      var url = 'http://0.0.0.0:5000/api/v2/signup'
+      var url = '/api/v2/signup'
       var data = { 'username': this.state.username, 'email': this.state.email, 'password': this.state.password }
       console.log(data)
       fetch(url, {

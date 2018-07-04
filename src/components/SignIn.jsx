@@ -17,8 +17,9 @@ class SignIn extends Component{
 
   handleSubmit = (event) => {
     event.preventDefault();
-    var url = 'http://0.0.0.0:5000/api/v2/signin'
+    var url = '/api/v2/signin'
     var data = { 'username': this.state.username, 'password': this.state.password }
+    console.log(data)
     fetch(url, {
       body: JSON.stringify(data),
       headers: {
