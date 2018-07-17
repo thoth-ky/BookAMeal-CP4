@@ -10,14 +10,13 @@ class NavBar extends Component{
   }
 
   render() {
-
     let rightNav = ''
     if (this.state.isAuthenticated) {
       rightNav = (
         <ul className="nav navbar-right navbar-nav">
-          <li><Link to="/signout"> Sign Out </Link></li>
+         <li><Link to="/signout"> Sign Out </Link></li>
         </ul>
-      )
+   
     } else {
       rightNav = (
         <ul className="nav navbar-right navbar-nav">
@@ -26,8 +25,8 @@ class NavBar extends Component{
         </ul>
       )
     }
-    retur
-    n(
+
+    return(
       <nav className="navbar navbar-inverse row">
         <div className="container-fluid">
           <div className="navbar-header">
@@ -39,7 +38,7 @@ class NavBar extends Component{
             <li><Link to="/orders"> Orders </Link></li>
             <li><Link to="/meals"> Meals</Link></li>
           </ul>
-          { rightNav}
+          { rightNav }
         </div>
       </nav>
 
