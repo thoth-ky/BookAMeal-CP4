@@ -14,7 +14,7 @@ class SignUp extends Component{
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.password === this.state.password1 && this.state.password.length > 8){
-      var url = 'http://0.0.0.0:5000/api/v2/signup'
+      var url = '/api/v2/signup'
       var data = { 'username': this.state.username, 'email': this.state.email, 'password': this.state.password }
       console.log(data)
       fetch(url, {
@@ -30,12 +30,13 @@ class SignUp extends Component{
       .catch(error => console.error('Error: ', error))
       .then(response => {
         if (response.access_token) {
-            localStorage.setItem('access_token', response.access_token);
+            sessionStorage.setItem('access_token', response.access_token);
             console.log('Success', response.message);
         } else {
           alert('An error occured')
           console.log(response.message)
         }
+        window.location.replace('/home')
       })
     } else {
       alert('Ensure passwords match and use more than 8 characters')
@@ -69,7 +70,5 @@ class SignUp extends Component{
     );
   }
 }
-
-
 
 export default SignUp;

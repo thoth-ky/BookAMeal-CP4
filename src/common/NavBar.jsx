@@ -16,8 +16,9 @@ class NavBar extends Component{
         <ul className="nav navbar-right navbar-nav">
          <li><Link to="/signout"> Sign Out </Link></li>
         </ul>
-   
-    } else {
+      )
+
+      } else {
       rightNav = (
         <ul className="nav navbar-right navbar-nav">
           <li><Link to="/signup"> Sign Up </Link></li>

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./common/NavBar";
 import SignUp from "./components/SignUp";
-import SignIn from './components/SignIn'
+import SignIn from "./components/SignIn";
+import SignOut from "./components/SignOut";
 
 class App extends Component {
+
   render() {
-    const access_token = localStorage.getItem('access_token');
+    const access_token = sessionStorage.getItem('access_token');
     let authentication;
     if (access_token){
       authentication = true
@@ -22,6 +24,7 @@ class App extends Component {
           <Switch>
             <Route path="/signup" component={ SignUp }/>
             <Route path="/signin" component={ SignIn }/>
+            <Route path="/signout" component={ SignOut }/>
           </Switch>
         </div>
 
