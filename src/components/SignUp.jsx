@@ -49,19 +49,19 @@ class SignUp extends Component{
         <form className="form-Group" onSubmit={ this.handleSubmit }>
           <h3> Don't have an account? Create One Here!</h3>
           <label>
-            Username: <input type="text" className="form-control" placeholder="username" name="username" onChange={this.handleChange} required />
+            <span>Username:</span><input type="text" className="form-control" placeholder="username" name="username" onChange={this.handleChange} required />
           </label>
           <br/>
           <label>
-              E-mail: <input type="text" className="form-control" placeholder="example@mail.com" name="email" onChange={this.handleChange} required />
+              <span>Email:</span> <input type="text" className="form-control" placeholder="example@mail.com" name="email" onChange={this.handleChange} required />
           </label>
           <br/>
           <label>
-              Password: <input type="password" className="form-control" onChange={this.handleChange} name="password" required />
+              <span>Password:</span> <input type="password" className="form-control" onChange={this.handleChange} name="password" required />
           </label>
           <br/>
           <label>
-              Confirm Password: <input type="password" className="form-control" onChange={this.handleChange} name="password1" required />
+              <span>Confirm Password:</span><input type="password" className="form-control" onChange={this.handleChange} name="password1" required />
           </label>
           <br/>
           <input className="btn btn-primary" type="submit" value="Sign Up" />
