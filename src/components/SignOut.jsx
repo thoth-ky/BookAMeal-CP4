@@ -10,7 +10,8 @@ class SignOut extends Component{
     this.state = { isLoggedOut: false}
   }
   signOut = () => {
-
+    const url = '/api/v2/signout';
+    const access_token = sessionStorage.getItem('access_token');
     fetch (url, {
       headers: {
         'Authorization': access_token,
