@@ -17,8 +17,9 @@ class SignIn extends Component{
 
   handleSubmit = (event) => {
     event.preventDefault();
-    var url = 'http://0.0.0.0:5000/api/v2/signin'
+    var url = '/api/v2/signin'
     var data = { 'username': this.state.username, 'password': this.state.password }
+    console.log(data)
     fetch(url, {
       body: JSON.stringify(data),
       headers: {
@@ -32,13 +33,14 @@ class SignIn extends Component{
     .catch(error => console.error('Error: ', error))
     .then(response => {
       if(response.access_token){
-        localStorage.setItem('access_token', response.access_token)
+        sessionStorage.setItem('access_token', response.access_token)
         console.log('Success', response.message)
       }
       else{
         alert('An error occured')
         console.log('Success:', response.message)
       }
+      window.location.replace('/home')
     })
     }
 
