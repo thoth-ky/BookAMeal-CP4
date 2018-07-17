@@ -30,12 +30,13 @@ class SignUp extends Component{
       .catch(error => console.error('Error: ', error))
       .then(response => {
         if (response.access_token) {
-            localStorage.setItem('access_token', response.access_token);
+            sessionStorage.setItem('access_token', response.access_token);
             console.log('Success', response.message);
         } else {
           alert('An error occured')
           console.log(response.message)
         }
+        window.location.replace('/home')
       })
     } else {
       alert('Ensure passwords match and use more than 8 characters')
@@ -69,7 +70,5 @@ class SignUp extends Component{
     );
   }
 }
-
-
 
 export default SignUp;

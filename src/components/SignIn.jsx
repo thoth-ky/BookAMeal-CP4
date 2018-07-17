@@ -33,13 +33,14 @@ class SignIn extends Component{
     .catch(error => console.error('Error: ', error))
     .then(response => {
       if(response.access_token){
-        localStorage.setItem('access_token', response.access_token)
+        sessionStorage.setItem('access_token', response.access_token)
         console.log('Success', response.message)
       }
       else{
         alert('An error occured')
         console.log('Success:', response.message)
       }
+      window.location.replace('/home')
     })
     }
 
