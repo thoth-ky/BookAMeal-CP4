@@ -44,6 +44,7 @@ class SignIn extends Component{
         this.setState({alert: response.message})
         console.log('Error:', response.message)
       }
+      window.location.replace('/home')
     })
     }
 
