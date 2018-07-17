@@ -71,11 +71,11 @@ class SignUp extends Component{
           <h3> Registration Form</h3>
           { displayAlert }
           <label>
-            Username: <input type="text" className="form-control" placeholder="username" name="username" onChange={this.handleChange} required />
+            <span>Username:</span><input type="text" className="form-control" placeholder="username" name="username" onChange={this.handleChange} required />
           </label>
           <br/>
           <label>
-              E-mail: <input type="text" className="form-control" placeholder="example@mail.com" name="email" onChange={this.handleChange} required />
+              <span>Email:</span> <input type="text" className="form-control" placeholder="example@mail.com" name="email" onChange={this.handleChange} required />
           </label>
           <br/>
           <label>
