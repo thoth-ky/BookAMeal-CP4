@@ -1,7 +1,10 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
+import fetchMock from 'fetch-mock';
+// component
 import SignUp from './SignUp.jsx';
+
 
 
 describe('These are tests for signup component', () => {
@@ -17,15 +20,25 @@ describe('These are tests for signup component', () => {
     expect(wrapper.contains('Confirm Password:')).toEqual(true);
     expect(wrapper.contains(button)).toEqual(true);
 
-  })
-it('signup form submit works', () => {
-  var wrapper = mount(< SignUp />);
-  var submit = sinon.sandbox.stub(SignUp.prototype, 'handleSubmit').;
-  wrapper.find('form').simulate('submit');
-  expect(submit.called).to.be.true;
+  });
 
-  Signup.restore();
+  it('signup form submit works', () => {
+    const submitRequest = sinon.stub(SignUp.prototype, 'handleSubmit').returns(true);
 
+    const wrapper = mount(<SignUp />);
+    wrapper.find('form').simulate('submit');
+    expect(submitRequest.called).toBe(true);
 
-})
+    submitRequest.restore();
+    })
+
+  it('test it returns error message if passwords dont match', () =>{
+    window.alert = jest.fn()
+    const wrapper = mount(<SignUp />);
+    wrapper.setState({ username: 'kyalo' , email: 'kyalo@mail.com', password: 'kyalo123453', password1: 'kyalo12345' })
+    const form = wrapper.find('form');
+    form.simulate('submit')
+    expect(window.alert).toHaveBeenCalledWith("Ensure passwords match and use more than 8 characters")
+    })
+
 });
