@@ -33,14 +33,15 @@ class SignIn extends Component{
     .catch(error => console.error('Error: ', error))
     .then(response => {
       if(response.access_token){
-        sessionStorage.setItem('access_token', response.access_token)
-        console.log('Success', response.message)
+        sessionStorage.setItem('access_token', response.access_token);
+        console.log('Success', response.message);
+        window.location.replace('/home');
       }
       else{
         alert('An error occured')
-        console.log('Success:', response.message)
+        console.log('Error:', response.message)
       }
-      window.location.replace('/home')
+
     })
     }
 
@@ -50,7 +51,9 @@ class SignIn extends Component{
         <form className="form-Group " onSubmit={this.handleSubmit}>
                 <h3>Sign In</h3>
                 <label>
-                    <span>Username:</span> <input type="text" className="form-control" name="username" onChange={this.handleChange} required />
+                    <span>Username:</span> <input type="text" className="form-control"
+                      name="username" pattern=".{4, }" onChange={this.handleChange} required
+                      title="Ensure username is more than 4 characters"/>
                 </label>
                 <br/>
                 <label>
