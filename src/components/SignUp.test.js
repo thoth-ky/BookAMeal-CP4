@@ -1,8 +1,11 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
+<<<<<<< HEAD
 import fetchMock from 'fetch-mock';
 // component
+=======
+>>>>>>> Update tests
 import SignUp from './SignUp.jsx';
 
 
@@ -20,6 +23,7 @@ describe('These are tests for signup component', () => {
     expect(wrapper.contains('Confirm Password:')).toEqual(true);
     expect(wrapper.contains(button)).toEqual(true);
 
+<<<<<<< HEAD
   });
 
   it('signup form submit works', () => {
@@ -41,4 +45,17 @@ describe('These are tests for signup component', () => {
     expect(window.alert).toHaveBeenCalledWith("Ensure passwords match and use more than 8 characters")
     })
 
+=======
+  })
+it('signup form submit works', () => {
+  var wrapper = mount(< SignUp />);
+  var submit = sinon.sandbox.stub(SignUp.prototype, 'handleSubmit').;
+  wrapper.find('form').simulate('submit');
+  expect(submit.called).to.be.true;
+
+  Signup.restore();
+
+
+})
+>>>>>>> Update tests
 });
