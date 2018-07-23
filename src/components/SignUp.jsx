@@ -24,7 +24,6 @@ class SignUp extends Component{
     if (this.state.password === this.state.password1 && this.state.password.length >= 8){
       var url = '/api/v2/signup'
       var data = { 'username': this.state.username, 'email': this.state.email, 'password': this.state.password }
-      console.log(data)
       fetch(url, {
         body: JSON.stringify(data),
         headers: {
@@ -71,11 +70,14 @@ class SignUp extends Component{
           <h3> Registration Form</h3>
           { displayAlert }
           <label>
-            <span>Username:</span><input type="text" className="form-control" placeholder="username" name="username" onChange={this.handleChange} required />
+            <span>Username:</span><input type="text" className="form-control"
+              placeholder="username" name="username" pattern=".{4,}"
+              onChange={this.handleChange} required title="Required minimum length of 4 characters"/>
           </label>
           <br/>
           <label>
-              <span>Email:</span> <input type="text" className="form-control" placeholder="example@mail.com" name="email" onChange={this.handleChange} required />
+              <span>Email:</span> <input type="email" className="form-control"
+                placeholder="example@mail.com" name="email" onChange={this.handleChange} required />
           </label>
           <br/>
           <label>
