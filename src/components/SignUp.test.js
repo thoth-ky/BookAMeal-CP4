@@ -2,15 +2,22 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import fetchMock from 'fetch-mock';
 // component
 =======
 >>>>>>> Update tests
+=======
+import moxios from 'moxios';
+
+// component
+>>>>>>> Fix failing tests in signup
 import SignUp from './SignUp.jsx';
 
 
 
 describe('These are tests for signup component', () => {
+
   it('test signup has all html tags', () => {
     var wrapper = shallow(< SignUp />);
     var button = <input className="btn btn-primary" type="submit" value="Sign Up" />
@@ -24,6 +31,9 @@ describe('These are tests for signup component', () => {
     expect(wrapper.contains(button)).toEqual(true);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Fix failing tests in signup
   });
 
   it('signup form submit works', () => {
@@ -35,6 +45,7 @@ describe('These are tests for signup component', () => {
 
     submitRequest.restore();
     })
+<<<<<<< HEAD
 
   it('test it returns error message if passwords dont match', () =>{
     window.alert = jest.fn()
@@ -52,10 +63,42 @@ it('signup form submit works', () => {
   var submit = sinon.sandbox.stub(SignUp.prototype, 'handleSubmit').;
   wrapper.find('form').simulate('submit');
   expect(submit.called).to.be.true;
+=======
+  });
+>>>>>>> Fix failing tests in signup
 
-  Signup.restore();
+  it('should store access_token after successful SignUp', () =>{
+    const wrapper = mount(<SignUp />);
+    const usernameInput = wrapper.find('input[type="text"]');
+    const emailInput = wrapper.find('input[type="email"]');
+    const passInput =  wrapper.find('input[name="password"]');
+    const passInput1 =  wrapper.find('input[name="password1"]');
 
+    usernameInput.value = 'kyalo'
+    emailInput.value = 'kyalo@mail.com'
+    passInput.value = 'kyalo1234'
+    passInput1.value = 'kyalo1234'
+    const form = wrapper.find('form');
+    form.simulate('submit')
 
+<<<<<<< HEAD
 })
 >>>>>>> Update tests
 });
+=======
+    moxios.wait(function () {
+    let request = moxios.requests.mostRecent()
+      request.respondWith({
+      status: 200,
+      response:
+        {
+          access_token: 'validToken',
+          is_admin: false,
+          message: 'Successfully logged in'
+        }
+      }).then(function () {
+        expect(sessionStorage.getItem('access_token')).to.equal('validToken')
+        })
+      })
+    })
+>>>>>>> Fix failing tests in signup
