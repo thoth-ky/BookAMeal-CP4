@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Link } from "react-router-dom";
-import Navbar from './Navbar.jsx';
+import Navbar from './Navbar';
 
 
 describe('These are navbar tests', () => {
