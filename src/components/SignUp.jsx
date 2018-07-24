@@ -4,6 +4,7 @@ class SignUp extends Component{
   constructor(props){
     super(props)
     this.state = { username: '' , email: '', password: '', password1: '' }
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange = (event) => {
@@ -11,7 +12,7 @@ class SignUp extends Component{
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit(event){
     event.preventDefault();
     if (this.state.password === this.state.password1 && this.state.password.length > 8){
       var url = '/api/v2/signup'
@@ -48,7 +49,7 @@ class SignUp extends Component{
         <form className="form-Group" onSubmit={ this.handleSubmit }>
           <h3> Don't have an account? Create One Here!</h3>
           <label>
-            <span>Username:</span><input type="text" className="form-control"
+            <span>Username:</span><input type="text" className="form-control" id="username"
               placeholder="username" name="username" pattern=".{4,}"
               onChange={this.handleChange} required title="Required minimum length of 4 characters"/>
           </label>
