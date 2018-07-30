@@ -30,9 +30,11 @@ class SignUp extends Component{
       .catch(error => console.error('Error: ', error))
       .then(response => {
         if (response.access_token) {
-            sessionStorage.setItem('access_token', response.access_token);
-            console.log('Success', response.message);
-            window.location.replace('/home');
+          localStorage.setItem('access_token', response.access_token);
+          alert('Successfully registered')
+          console.log('Success', response.message, response.access_token);
+          window.location.replace('/home');
+
         } else {
           alert('Ooops! ' + response.message)
           console.log(response.message)

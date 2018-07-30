@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 
 class SignOut extends Component{
+  constructor(props){
+    super(props)
+    this.state = {access_token: sessionStorage.getItem('access_token')}
+  }
+  
   signOut = () => {
     const url = '/api/v2/signout';
-    const access_token = sessionStorage.getItem('access_token');
     fetch (url, {
       headers: {
-        'Authorization': access_token,
+        'Authorization': this.state.access_token,
         'content-type': 'application/json',
         'Access-Control-Allow-Origin': "*",
       },
