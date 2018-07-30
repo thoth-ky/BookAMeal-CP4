@@ -28,8 +28,5 @@
     "moxios": "^0.4.0",
     "react-test-renderer": "^16.4.1",
     "sinon": "^6.1.4"
-  },
-  "jest": {
-    "setupTestFrameworkScriptFile": "./src/setupTests.js"
-   }
+  }
 }
