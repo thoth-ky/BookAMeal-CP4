@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import fetchMock from 'fetch-mock';
-// import localStorage from 'jest-localstorage-mock';
 // component
 import SignUp from './SignUp.jsx';
 
@@ -42,17 +41,5 @@ describe('These are tests for signup component', () => {
     expect(window.alert).toHaveBeenCalledWith("Ensure passwords match and use more than 8 characters")  
     })
   
-  it('can successfully store user token', () => {
-    fetchMock.post('/api/v2/signup', {status: 200, body:{ access_token:'valid token', message: 'Successfully logged in', is_admin: false}});
-    const wrapper = mount(<SignUp />);
-
-    wrapper.setState({ username: 'kyalo' , email: 'kyalo@mail.com', password: 'kyalo12345', password1: 'kyalo12345' })
-    const form = wrapper.find('form');
-    form.simulate('submit')
-
-    expect(localStorage.setItem).toHaveBeenCalledWith('access_token', 'valid token');
-    expect(localStorage.__STORE__['access_token']).toBe('valid token');
-    fetchMock.restore()
-  })
-  });
+});
 
