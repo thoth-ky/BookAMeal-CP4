@@ -11,10 +11,9 @@ class SignOut extends Component{
   }
   signOut = () => {
     const url = '/api/v2/signout';
-    const access_token = sessionStorage.getItem('access_token');
     fetch (url, {
       headers: {
-        'Authorization': access_token,
+        'Authorization': this.state.access_token,
         'content-type': 'application/json',
         'Access-Control-Allow-Origin': "*",
       },

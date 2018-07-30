@@ -3,6 +3,7 @@ import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import fetchMock from 'fetch-mock';
 // component
 =======
@@ -10,14 +11,22 @@ import fetchMock from 'fetch-mock';
 =======
 import moxios from 'moxios';
 
+=======
+import fetchMock from 'fetch-mock';
+// import localStorage from 'jest-localstorage-mock';
+>>>>>>> Introduce mock for local storage
 // component
 >>>>>>> Fix failing tests in signup
 import SignUp from './SignUp.jsx';
 
 
+<<<<<<< HEAD
 
 describe('These are tests for signup component', () => {
+=======
+>>>>>>> Introduce mock for local storage
 
+describe('These are tests for signup component', () => {
   it('test signup has all html tags', () => {
     var wrapper = shallow(< SignUp />);
     var button = <input className="btn btn-primary" type="submit" value="Sign Up" />
@@ -46,6 +55,7 @@ describe('These are tests for signup component', () => {
     submitRequest.restore();
     })
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   it('test it returns error message if passwords dont match', () =>{
     window.alert = jest.fn()
@@ -66,21 +76,27 @@ it('signup form submit works', () => {
 =======
   });
 >>>>>>> Fix failing tests in signup
+=======
+>>>>>>> Introduce mock for local storage
 
-  it('should store access_token after successful SignUp', () =>{
+  it('test it returns error message if passwords dont match', () =>{
+    window.alert = jest.fn()
     const wrapper = mount(<SignUp />);
-    const usernameInput = wrapper.find('input[type="text"]');
-    const emailInput = wrapper.find('input[type="email"]');
-    const passInput =  wrapper.find('input[name="password"]');
-    const passInput1 =  wrapper.find('input[name="password1"]');
+    wrapper.setState({ username: 'kyalo' , email: 'kyalo@mail.com', password: 'kyalo123453', password1: 'kyalo12345' })
+    const form = wrapper.find('form');
+    form.simulate('submit')
+    expect(window.alert).toHaveBeenCalledWith("Ensure passwords match and use more than 8 characters")  
+    })
+  
+  it('can successfully store user token', () => {
+    fetchMock.post('/api/v2/signup', {status: 200, body:{ access_token:'valid token', message: 'Successfully logged in', is_admin: false}});
+    const wrapper = mount(<SignUp />);
 
-    usernameInput.value = 'kyalo'
-    emailInput.value = 'kyalo@mail.com'
-    passInput.value = 'kyalo1234'
-    passInput1.value = 'kyalo1234'
+    wrapper.setState({ username: 'kyalo' , email: 'kyalo@mail.com', password: 'kyalo12345', password1: 'kyalo12345' })
     const form = wrapper.find('form');
     form.simulate('submit')
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 })
 >>>>>>> Update tests
@@ -102,3 +118,11 @@ it('signup form submit works', () => {
       })
     })
 >>>>>>> Fix failing tests in signup
+=======
+    expect(localStorage.setItem).toHaveBeenCalledWith('access_token', 'valid token');
+    expect(localStorage.__STORE__['access_token']).toBe('valid token');
+    fetchMock.restore()
+  })
+  });
+
+>>>>>>> Introduce mock for local storage
