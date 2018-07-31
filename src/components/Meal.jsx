@@ -72,9 +72,7 @@ class Meal extends Component {
       this.setState({ caterer: '' })
       window.location.replace('/meals')
       console.log(response.message)
-      //
     })
-
   }
 
   editMeal(event){
@@ -101,8 +99,6 @@ class Meal extends Component {
     .then(response => {
       alert(response.message)
     })
-
-
   }
 
   render = () => {
@@ -119,43 +115,25 @@ class Meal extends Component {
                 </div >
                 <div className="form-group">
                   <label className="control-label ">Name</label>
-                  <input type="text" className="form-control" value={ this.state.name }/>
+                  <input type="text" className="form-control" value={ this.state.name } name='name' onChange={ this.handleChange }/>
                 </div>
                 <div className="form-group">
                   <label className="control-label">Description</label>
-                  <textarea className="form-control" value={ this.state.description } />
+                  <textarea className="form-control" value={ this.state.description } name='description' onChange={ this.handleChange } />
                 </div>
                 <div className="form-group">
                   <label className="control-label">Price</label>
-                  <input className="form-control" type="number" value={ this.state.price }  min="0.00"/>
+                  <input className="form-control" type="number" value={ this.state.price }  min="0.00" name='price' onChange={ this.handleChange }/>
                 </div>
                 <input type="button" className="btn btn-info" value="REFRESH" onClick={ this.getMeal }/>
                 <input type="button" className="btn btn-danger" onClick={ this.deleteMeal } value="DELETE"/>
+                <input type="button" className="btn btn-info" value="UPDATE" onClick={ this.editMeal }/>
                 <p>NB: You can not delete a meal that has orders attached to it! :)</p>
               </form>
             </Col>
 
             <Col md={6}>
-
-              <h2>Edit a meal here</h2>
-              <p>To confirm changes happened, click REFRESH</p>
-              <div className="form-group">
-                  <form className="form-group">
-                    <div className="form-group">
-                      <label className="control-label ">Name</label>
-                      <input type="text" className="form-control" placeholder={ this.state.name } name="name" onChange={ this.handleChange }/>
-                    </div>
-                    <div className="form-group">
-                      <label className="control-label">Description</label>
-                      <textarea className="form-control" placeholder={ this.state.description } name="description" onChange={ this.handleChange } />
-                    </div>
-                    <div className="form-group">
-                      <label className="control-label">Price</label>
-                      <input className="form-control" type="number" placeholder={ this.state.price } name="price" onChange={ this.handleChange } min="0.00"/>
-                    </div>
-                  <input type="button" className="btn btn-info" value="UPDATE" onClick={ this.editMeal }/>
-                </form>
-              </div>
+              <p>====A very interesting pic here====</p>
             </Col>
           </Row>
         </Grid>
