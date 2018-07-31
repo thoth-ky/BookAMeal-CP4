@@ -4,7 +4,6 @@ class Meals extends Component {
   constructor(props){
     super(props)
     this.state = {name: '', description: '', price: '', meals: []};
-
     this.createMeal = this.createMeal.bind(this);
 		this.getMeals = this.getMeals.bind(this);
     this.getMeals()
@@ -17,7 +16,6 @@ class Meals extends Component {
   }
 
    getMeals(){
-     // event.preventDefault()
      const access_token = sessionStorage.getItem('access_token')
      var url = '/api/v2/meals'
 
@@ -101,16 +99,11 @@ class Meals extends Component {
   }
 
   render(){
-
-
     return(
       <div>
         <h2>Meals</h2>
         <div className="row">
           <div className="col-md-8" id="displaymeals">
-            <form onSubmit={ this.getMeals }>
-              <input type="submit" value="Refresh" className="btn btn-info"/>
-            </form>
             <div className="table-responsive">
               < this.displaymeals />
             </div>
@@ -139,7 +132,6 @@ class Meals extends Component {
         { this.props.children }
       </div>
     )
-
   }
 }
 
