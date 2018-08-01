@@ -30,8 +30,7 @@ class SignUp extends Component{
       .catch(error => console.error('Error: ', error))
       .then(response => {
         if (response.access_token) {
-            sessionStorage.setItem('access_token', response.access_token);
-            sessionStorage.setItem('is_admin', response.is_admin);
+            sessionStorage.setItem('access_token', 'Bearer ' + response.access_token);
             console.log('Success', response.message);
         } else {
           alert('An error occured')
