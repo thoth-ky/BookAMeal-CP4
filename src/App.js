@@ -5,10 +5,12 @@ import {
    Route,
    Redirect } from "react-router-dom";
 import decode from "jwt-decode";
+
 import NavBar from "./common/NavBar";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import SignOut from "./components/SignOut";
+import Menu from "./components/Menu"
 import Meals from "./components/Meals";
 import Meal from "./components/Meal";
 
@@ -37,9 +39,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 )
 
-
 class App extends Component {
+
   render() {
+
     let authentication = checkIsAuthenticated()
 
     return (
@@ -52,11 +55,11 @@ class App extends Component {
             <Route path="/signup" component={ SignUp }/>
             <Route path="/signin" component={ SignIn }/>
             <Route path="/signout" component={ SignOut }/>
+            <PrivateRoute path="/menu" component={ Menu }/>
             <PrivateRoute exact path="/meals" component={ Meals }/>
-            <PrivateRoute path="/meals/:meal_id" component={ Meal } />
+            <PrivateRoute path="/meals/:meal_id" component={ Meal }/>
           </Switch>
         </div>
-
       </Router>
     );
   }
