@@ -8,6 +8,7 @@ class Menu extends Component{
   }
 
   displayMenu = () => {
+    var is_admin = sessionStorage.getItem('is_admin')
     var markup = "<table class='table table-striped table-hover'><thead><tr><th>Meal ID</th><th>Meal Name</th><th>Price</th><th>Description</th><th>Caterer</th></tr><th></th></thead><tbody>";var i;
     var meals = this.state.meals
     for (var k in meals) {
@@ -22,6 +23,7 @@ class Menu extends Component{
 
       }
     }
+
     markup += "</tbody></table>"
     var rows = {__html: markup}
     return (

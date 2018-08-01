@@ -37,25 +37,18 @@ class NavBar extends Component{
     }
 
     return(
-      <nav className="navbar navbar-inverse">
-        <div className="container-fluid ">
+      <nav className="navbar navbar-inverse row">
+        <div className="container-fluid">
           <div className="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
             <Link className="navbar-brand" to="/">Hot Corner Delicacies</Link>
           </div>
-          <div class="collapse navbar-collapse" id="myNavbar">
-            <ul className="nav navbar-nav">
-              <li className="active"><Link to="/"> Home </Link></li>
-              <li><Link to="/menu"> Menu </Link></li>
-              <li><Link to="/orders"> Orders </Link></li>
-              { adminNav }
-            </ul>
-            { rightNav }
-          </div>
+          <ul className="nav navbar-nav">
+            <li className="active"><Link to="/"> Home </Link></li>
+            <li><Link to="/menu"> Menu </Link></li>
+            <li><Link to="/orders"> Orders </Link></li>
+            { adminNav }
+          </ul>
+          { rightNav }
         </div>
       </nav>
 
