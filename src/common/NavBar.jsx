@@ -5,8 +5,7 @@ class NavBar extends Component{
   constructor(props){
     super(props)
     this.state = {
-      isAuthenticated: this.props.isAuthenticated,
-      isAdmin: this.props.isAdmin
+      isAuthenticated: this.props.isAuthenticated
     }
   }
 
@@ -26,15 +25,6 @@ class NavBar extends Component{
         </ul>
       )
     }
-    let adminNav = ''
-    if (this.state.isAdmin){
-      alert(this.state.isAdmin)
-      adminNav = (
-        <li><Link to="/meals"> Meals</Link></li>
-      )
-    } else {
-      adminNav = ''
-    }
 
     return(
       <nav className="navbar navbar-inverse row">
@@ -46,7 +36,7 @@ class NavBar extends Component{
             <li className="active"><Link to="/"> Home </Link></li>
             <li><Link to="/menu"> Menu </Link></li>
             <li><Link to="/orders"> Orders </Link></li>
-            { adminNav }
+            <li><Link to="/meals"> Meals</Link></li>
           </ul>
           { rightNav }
         </div>
