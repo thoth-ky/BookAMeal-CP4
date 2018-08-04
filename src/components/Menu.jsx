@@ -4,7 +4,12 @@ import React, { Component } from "react";
 class Menu extends Component{
   constructor(props){
     super(props)
-    this.state = { meals: '', date: ''}
+    this.state = {
+      meals: '',
+      date: ''
+    }
+    this.getMenu = this.getMenu.bind(this)
+    this.getMenu()
   }
 
   displayMenu = () => {
@@ -29,8 +34,8 @@ class Menu extends Component{
     );
     }
 
-  getMenu = (event) => {
-    event.preventDefault();
+  getMenu(){
+    // event.preventDefault();
     var access_token = sessionStorage.getItem('access_token')
     var url = '/api/v2/menu'
 

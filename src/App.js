@@ -13,6 +13,7 @@ import SignOut from "./components/SignOut";
 import Menu from "./components/Menu"
 import Meals from "./components/Meals";
 import Meal from "./components/Meal";
+import Orders from "./components/Orders";
 
 
 let isAdmin = '';
@@ -58,6 +59,7 @@ class App extends Component {
             <PrivateRoute path="/menu" component={ Menu }/>
             <PrivateRoute exact path="/meals" component={ Meals }/>
             <PrivateRoute path="/meals/:meal_id" component={ Meal }/>
+            <PrivateRoute path="/orders" component={ Orders } />
           </Switch>
         </div>
       </Router>
