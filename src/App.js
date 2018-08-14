@@ -61,6 +61,9 @@ class App extends Component {
             <PrivateRoute path="/meals/:meal_id" component={ Meal }/>
             <PrivateRoute path="/orders" component={ Orders } />
           </Switch>
+          <footer>
+            <p>Footers Here</p>
+          </footer>
         </div>
       </Router>
     );
