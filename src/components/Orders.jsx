@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-
+import { Well, Jumbotron, Panel, Modal, Button } from "react-bootstrap";
+import { timeConverter } from "../common/helpers"
 
 class Orders extends Component{
   constructor(props){
     super(props)
     this.state = {
       orders : '',
-      admin_orders: ''
+      admin_orders: '',
+      show_modal: false
     }
     this.getOrders = this.getOrders.bind(this)
     this.makeOrder = this.makeOrder.bind(this)
@@ -57,39 +59,72 @@ class Orders extends Component{
     })
   }
 
-  displayOrders = (orders) =>{
-    var markup = ''
-    if (orders === '') {
-      markup = "<div class='row'>Sorry, you don't seem to have any orders<p></p></div>"
-    } else {
-      for (var i in orders.orders) {
-        if (orders.orders.hasOwnProperty(i)) {
-          var order  = orders.orders[i]
-          markup += "<div class='row'>"
-          markup += "<div class='col-md-1'>"+ order.order_id +'</div>'
-          markup += "<div class='col-md-1'>"+ order.time_ordered +'</div>'
-          markup += "<div class='col-md-1'>"+ order.due_time +'</div>'
-          markup += "<div class='col-md-1'>"+ order.owner +'</div>'
-          markup += "<div class='col-md-6'>"
-          for (var m in order.meals) {
-            if (order.meals.hasOwnProperty(m)) {
-              var meal = order.meals[m]
-              markup += "<div id='meal' class=''>"
-              markup += '<p>Meal' + m + 'Name: ' + meal.name + '</p>'
-              markup += '<p>Quantity: ' + meal.quantity + '</p>'
-              markup += '<p>Unit Price: ' + meal.unit_price + '</p>'
-              markup += '<p>Caterer: ' + meal.caterer + '</p>'
-              markup += "</div>"
+  Meal = (meal) =>{
+    let meal_item = meal.meal
+    return (
+      <Panel>
+        <p>Meal Name: <strong>{ meal_item.name }</strong></p>
+        <p>Quantity: <strong>{ meal_item.quantity }</strong></p>
+        <p>Unit Price: <strong>{ meal_item.unit_price }</strong></p>
+        <p>Sub Total: <strong>{ meal_item.sub_total }</strong></p>
+      </Panel>
+    )
+  }
 
-            }
-          }
-          markup += "</div><div class='col-md-2'>" + order.total + "</div>"
-          markup += '</div>'
-        }
-      }
+  Order = (order) =>{
+    console.log(order.order)
+    let order_item = order.order;
+
+    let id = order_item.order_id;
+    let time_ordered = timeConverter(order_item.time_ordered);
+    let due_time = timeConverter(order_item.time_ordered);
+    let meals = order_item.meals;
+    let total = order_item.total;
+    let owner = order_item.owner
+    const mealNode = meals.map((meal) => {
+      return (< this.Meal meal={ meal } />)
+    })
+    return (
+      <Well>
+        <div className="col-md-1">{ id }</div>
+        <div className="col-md-2">{ time_ordered }</div>
+        <div className="col-md-2">{ due_time }</div>
+        <div className="col-md-1">{ owner }</div>
+        <div className="col-md-2">{ total }</div>
+        <Button onClick={this.showDetail}>Show Meals</Button>
+          <Modal show={this.state.show_modal} onHide={this.handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title><span>Meals for Order { id }</span></Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              { mealNode}
+            </Modal.Body>
+          </Modal>
+      </Well>)
+  }
+  showDetail = () =>{
+    this.setState({show_modal:true})
+  }
+
+  handleCloseModal = () =>{
+    this.setState({show_modal: false})
+  }
+  displayOrders = (orders) =>{
+    try {
+      let order_list = orders.orders
+      const orderNode = order_list.map((order) => {
+        return (< this.Order order={order}  />)
+      })
+      return (
+        <div>
+          <p>Dismissable Alert Box Here</p>
+          { orderNode }
+        </div>
+      )
+    } catch (e) {
+      console.error('Err: ', e)
+      return null
     }
-    var orders_markup = {__html: markup}
-    return (<div dangerouslySetInnerHTML={orders_markup} />);
   }
 
   render = () => {
@@ -97,17 +132,16 @@ class Orders extends Component{
     return(
       <div>
         <h2>My Orders</h2>
-        <div id="orders" className="container">
-          <div className="row" id="headings">
-            <div className="col-md-1">Order ID</div>
-            <div className="col-md-1">Time Ordered</div>
-            <div className="col-md-1">Due Time</div>
-            <div className="col-md-1">Ordered By</div>
-            <div className="col-md-6">Order Details</div>
-            <div className="col-md-2">Total Cost</div>
-          </div>
+        <Jumbotron>
+          <Well className="row">
+            <div className="col-md-1"><h4><b>ID</b></h4></div>
+            <div className="col-md-2"><h4><b>Time Ordered</b></h4></div>
+            <div className="col-md-2"><h4><b>Due Time</b></h4></div>
+            <div className="col-md-1"><h4><b>Owner</b></h4></div>
+            <div className="col-md-2"><h4><b>Total Cost</b></h4></div>
+          </Well>
           <this.displayOrders orders={ orders }/>
-        </div>
+        </Jumbotron>
       </div>
     )
   }
