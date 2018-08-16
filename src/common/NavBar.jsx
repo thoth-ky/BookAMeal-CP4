@@ -7,7 +7,8 @@ class NavBar extends Component{
     super(props)
     this.state = {
       isAuthenticated: this.props.isAuthenticated,
-      isAdmin: this.props.isAdmin
+      isAdmin: this.props.isAdmin,
+      username: this.props.username
     }
   }
 
@@ -16,7 +17,8 @@ class NavBar extends Component{
     if (this.state.isAuthenticated) {
       rightNav = (
         <ul className="nav navbar-right navbar-nav">
-         <li><NavLink to="/signout"> Sign Out </NavLink></li>
+          <li><NavLink to="/"><span>You are logged in as: </span>{ this.state.username}</NavLink></li>
+          <li><NavLink to="/signout"> Sign Out </NavLink></li>
         </ul>
       )
 

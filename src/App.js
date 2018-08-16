@@ -17,11 +17,14 @@ import Orders from "./components/Orders";
 
 
 let isAdmin = '';
+let userName = ''
 const checkIsAuthenticated = () => {
   const access_token = sessionStorage.getItem('access_token');
   try {
-    var { exp, admin } = decode(access_token);
+    var { exp, admin, username } = decode(access_token);
     isAdmin = admin
+    userName = username
+
     if (exp > new Date().getTime()) {
       return false
     } else {
@@ -50,7 +53,7 @@ class App extends Component {
       <Router>
         <div className="container">
           <header>
-            <NavBar isAuthenticated={ authentication } isAdmin={ isAdmin}/>
+            <NavBar isAuthenticated={ authentication } isAdmin={ isAdmin } username={ userName }/>
           </header>
           <Switch>
             <Route path="/signup" component={ SignUp }/>
