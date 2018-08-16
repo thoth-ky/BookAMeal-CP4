@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Well, Jumbotron, Panel, Modal, Button } from "react-bootstrap";
+import { Well, Panel, Modal, Button, Tabs, Tab, Table } from "react-bootstrap";
 import { timeConverter } from "../common/helpers"
-
-
-
 
 
 class Orders extends Component{
@@ -11,9 +8,11 @@ class Orders extends Component{
     super(props)
     this.state = {
       orders : '',
-      admin_orders: '',
+      admin_orders: null,
       show_modal: false,
       meals_on_disp:null,
+      is_admin: true,
+      daily_summaries: null,
     }
     this.getOrders = this.getOrders.bind(this)
     this.getOrders()
@@ -45,14 +44,17 @@ class Orders extends Component{
     .then(response => response.json())
     .catch(error => console.error('Error: error'))
     .then(response => {
-      this.setState({orders: response.orders, admin_orders: response.admin_orders})
+      console.log(response);
+      this.setState({orders: response.orders})
+      this.setState({admin_orders: response.admin_orders})
+      this.setState({daily_summaries: response.daily_summaries})
     })
   }
 
   Meal = (meal) =>{
     let meal_item = meal.meal
     return (
-      <Panel>
+      <Panel >
         <p>Meal Name: <strong>{ meal_item.name }</strong></p>
         <p>Quantity: <strong>{ meal_item.quantity }</strong></p>
         <p>Unit Price: <strong>{ meal_item.unit_price }</strong></p>
@@ -72,10 +74,10 @@ class Orders extends Component{
 
     return (
       <Well>
-        <div className="col-md-1">{ id }</div>
+        <div className="col-md-2">{ id }</div>
         <div className="col-md-2">{ time_ordered }</div>
         <div className="col-md-2">{ due_time }</div>
-        <div className="col-md-1">{ owner }</div>
+        <div className="col-md-2">{ owner }</div>
         <div className="col-md-2">{ total }</div>
         <Button onClick={ this.showDetail } data-id={ id } >Show Meals</Button>
       </Well>)
@@ -83,13 +85,12 @@ class Orders extends Component{
 
   showDetail = (e) =>{
     e.preventDefault()
-    let order_id = parseInt(e.currentTarget.dataset.id);
+    let order_id = parseInt(e.currentTarget.dataset.id, 10);
     let orders = this.state.orders;
 
     for (var i in orders) {
       if (orders.hasOwnProperty(i)) {
         if (order_id === orders[i]['order_id']){
-          console.log(order_id)
           this.setState({meals_on_disp: orders[i]['meals']})
         }
       }
@@ -114,31 +115,58 @@ class Orders extends Component{
       })
       return (
         <div>
-          <p>Dismissable Alert Box Here</p>
           { orderNode }
         </div>
       )
     } catch (e) {
-      console.error('Error: ', e)
       return null
     }
   }
 
+  displayDailySummaries = () =>{
+    if(this.state.daily_summaries){
+      let daily_summaries = this.state.daily_summaries
+      let dates = Object.keys(daily_summaries)
+      return null
+    } else {
+      return null
+    }
+  }
+
+  Summary = (summary) =>{
+
+  }
   render = () => {
     let orders = this.state.orders;
+    let orders_heading = (
+      <div className="row">
+        <div className="col-md-2"><h4><b>ID</b></h4></div>
+        <div className="col-md-2"><h4><b>Time Ordered</b></h4></div>
+        <div className="col-md-2"><h4><b>Due Time</b></h4></div>
+        <div className="col-md-2"><h4><b>Owner</b></h4></div>
+        <div className="col-md-2"><h4><b>Total Cost</b></h4></div>
+      </div>
+    )
+
     return(
       <div>
-        <h2>My Orders</h2>
-        <Jumbotron>
-          <Well className="row">
-            <div className="col-md-1"><h4><b>ID</b></h4></div>
-            <div className="col-md-2"><h4><b>Time Ordered</b></h4></div>
-            <div className="col-md-2"><h4><b>Due Time</b></h4></div>
-            <div className="col-md-1"><h4><b>Owner</b></h4></div>
-            <div className="col-md-2"><h4><b>Total Cost</b></h4></div>
-          </Well>
-          <this.displayOrders orders={ orders }/>
-        </Jumbotron>
+
+        <Tabs defaultActiveKey={1}>
+          <Tab eventKey={1} title="My Orders">
+            <Well>
+              { orders_heading}
+              <this.displayOrders orders ={ orders }/>
+            </Well>
+          </Tab>
+
+          <Tab eventKey={2} title="Admin Orders">
+            { orders_heading}
+            <this.displayOrders orders ={ this.state.admin_orders }/>
+          </Tab>
+          <Tab eventKey={3} title="Daily Summaries">
+            <this.displayDailySummaries/>
+          </Tab>
+        </Tabs>
         <Modal show={this.state.show_modal} onHide={this.handleCloseModal}>
           <Modal.Header closeButton>
             <Modal.Title><span>Meals for Order </span></Modal.Title>
@@ -147,6 +175,7 @@ class Orders extends Component{
             { this.mealNode() }
           </Modal.Body>
         </Modal>
+
       </div>
     )
   }

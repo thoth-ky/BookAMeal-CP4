@@ -51,7 +51,7 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="container">
+        <div>
           <header>
             <NavBar isAuthenticated={ authentication } isAdmin={ isAdmin } username={ userName }/>
           </header>

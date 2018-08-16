@@ -114,7 +114,7 @@ class Menu extends Component{
     })
 
     return (
-        <div>
+        <Well>
           <div className="row">
             <div className="col-md-1"><h4>Meal ID</h4></div>
             <div className="col-md-2"><h4>Meal Name</h4></div>
@@ -124,7 +124,7 @@ class Menu extends Component{
           </div>
           { this.showAlert() }
           { menuNode }
-        </div>
+        </Well>
     );
     }
 
@@ -178,7 +178,6 @@ class Menu extends Component{
     let data = {due_time: due_time, order: order_list}
     // clear cart state and stop showing modal
     this.setState({show_cart: false, cart: []})
-    console.log('Order Data ', data);
     fetch(url, {
       headers: {
         'content-type': 'application/json',
@@ -192,7 +191,6 @@ class Menu extends Component{
     .then((response)  => response.json())
     .catch(error => console.error('Error: ', error))
     .then((response) => {
-      console.log(response)
       this.setState({ alert: response.message });
     })
 
