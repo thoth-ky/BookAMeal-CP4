@@ -59,7 +59,21 @@ class Menu extends Component{
   }
 
  removeFromCart = (e) => {
-   alert('remove from cart')
+   e.preventDefault()
+
+   let meal_id = e.currentTarget.dataset.id;
+   let current_orders = this.state.cart;
+
+   for (let i in current_orders) {
+     if (current_orders.hasOwnProperty(i)) {
+       let order = current_orders[i]
+       if (order.meal_id === meal_id){
+         current_orders.splice(i, 1)
+       }
+
+     }
+   }
+   this.setState({cart: current_orders})
  }
 
   Meal = (meal) => {
@@ -152,47 +166,56 @@ class Menu extends Component{
     let menu = this.state.meals
     let cart = this.state.cart
     const cartItems = () => {
-      const Row = (order) =>{
+      if (cart.length !== 0){
+        const Row = (order) =>{
 
-        return (
-          <tr>
-            <td>{ order.order.meal_id }</td>
-            <td>{ order.order.meal_name }</td>
-            <td>{ order.order.quantity }</td>
-            <td>{ order.order.price }</td>
-            <td>{ order.order.sub }</td>
-            <td><Button onClick={ this.removeFromCart } data-id={ order.order.meal_id }>Remove</Button></td>
-          </tr>
+          return (
+            <tr>
+              <td>{ order.order.meal_id }</td>
+              <td>{ order.order.meal_name }</td>
+              <td>{ order.order.quantity }</td>
+              <td>{ order.order.price }</td>
+              <td>{ order.order.sub }</td>
+              <td><Button onClick={ this.removeFromCart } data-id={ order.order.meal_id }>Remove</Button></td>
+            </tr>
+
+          )
+        }
+        const orderNode = cart.map((order) => {
+          return (< Row order={ order }  />)
+        })
+        return(
+          <Well>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Meal ID</th>
+                  <th>Meal Name</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                { orderNode }
+                <tr>
+                  <td colSpan="4">Total</td>
+                  <td>Total</td>
+                </tr>
+              </tbody>
+            </Table>
+            <Button onClick={ this.handlePlaceOrder }>Place Order</Button>
+        </Well>
 
         )
+      } else {
+        return (
+          <div>
+            <p>Sorry, at this moment you have not placed any orders</p>
+          </div>
+        )
       }
-      const orderNode = cart.map((order) => {
-        return (< Row order={ order }  />)
-      })
-      return(
-        <Well>
-          <Table>
-            <thead>
-              <tr>
-                <th>Meal ID</th>
-                <th>Meal Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Subtotal</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              { orderNode }
-            </tbody>
-            <tfooter>
-              <td colSpan="4">Total</td>
-              <td>Total</td>
-            </tfooter>
-          </Table>
-      </Well>
-
-      )
     }
     return (
       <div>
@@ -205,7 +228,6 @@ class Menu extends Component{
           </Modal.Header>
           <Modal.Body>
             { cartItems() }
-            <Button onClick={ this.handlePlaceOrder }>Place Order</Button>
           </Modal.Body>
         </Modal>
       </div>
