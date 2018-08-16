@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Button, Alert, Well, Modal } from "react-bootstrap";
+import { timeConverter } from "../common/helpers";
 
 
 class Menu extends Component{
@@ -6,7 +8,9 @@ class Menu extends Component{
     super(props)
     this.state = {
       meals: '',
-      date: ''
+      date: '',
+      show_cart: false,
+      cart: []
     }
     this.getMenu = this.getMenu.bind(this)
     this.getMenu()
@@ -56,15 +60,41 @@ class Menu extends Component{
     })
   }
 
+  showCart = () => {
+    this.setState({show_cart: true})
+  }
+
+  dismissCart = () => {
+    this.setState({show_cart: false})
+  }
+
+  handlePlaceOrder = () => {
+    alert('Send Order')
+
+  }
+
   render = () => {
+    const cartItems = () => {
+      return(
+        <div>
+          <p>Cart Items Here</p>
+        </div>
+      )
+    }
     return (
       <div>
-        <h3>Menu for Date: { this.state.date }</h3>
-        <form onSubmit={ this.getMenu }>
-          <input className="btn btn-info" type="submit" value="Refresh"/>
-        </form>
+        <h3>Menu for Date: { timeConverter(this.state.date) }</h3>
+        <Button onClick={ this.showCart }>CART</Button>
         <this.displayMenu />
-
+        <Modal show={ this.state.show_cart } onHide={ this.dismissCart }>
+          <Modal.Header closeButton>
+            <Modal.Title><span>CART</span></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            { cartItems() }
+            <Button onClick={ this.handlePlaceOrder }>Place Order</Button>
+          </Modal.Body>
+        </Modal>
       </div>
     )
   }
