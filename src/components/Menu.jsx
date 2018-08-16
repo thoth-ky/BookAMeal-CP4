@@ -10,31 +10,82 @@ class Menu extends Component{
       meals: '',
       date: '',
       show_cart: false,
-      cart: []
+      cart: [],
+      alert: null,
+      show_alert: false
     }
     this.getMenu = this.getMenu.bind(this)
     this.getMenu()
   }
 
-  displayMenu = () => {
-    var markup = "<table class='table table-striped table-hover'><thead><tr><th>Meal ID</th><th>Meal Name</th><th>Price</th><th>Description</th><th>Caterer</th></tr><th></th></thead><tbody>";
-    var meals = this.state.meals
-    for (var k in meals) {
-      if (meals.hasOwnProperty(k)) {
-        markup += "<tr><td>" + meals[k].meal_id + "</td>";
-        markup += "<td>" + meals[k].name + "</td>";
-        markup += "<td>" + meals[k].price + "</td>";
-        markup += "<td>" + meals[k].description + "</td>";
-        markup += "<td>" + meals[k].caterer + "</td>";
-        markup += "<td><form onSubmit={ }><label>#</label><input type='number' min=0 placeholder='How many?'/><input type='submit' class='btn btn-info' value='Order'/></form></td>";
-        markup += "</tr>"
+  showAlert = () => {
+    if (this.state.alert){
+      return(
+        <Alert onDismiss={ this.hideAlert }>{ this.state.alert }</Alert>
+      )
+    } else {
+      return null
+    }
+  }
 
+  hideAlert = () => {
+    this.setState({ alert: null})
+  }
+
+  addToCart = (e) =>{
+    e.preventDefault()
+    alert('Adding to Cart')
+  }
+
+
+  Meal = (meal) => {
+    console.log('Meal',meal.meal);
+    let meal_item = meal.meal
+    let meal_id = meal_item.meal_id
+    let name = meal_item.name
+    let description = meal_item.description
+    let price = meal_item.price
+    return (
+      <Well className="row">
+        <div className="col-md-1">{ meal_id }</div>
+        <div className="col-md-2">{ name }</div>
+        <div className="col-md-3">{ description }</div>
+        <div className="col-md-2">Kes { price }.00</div>
+        <div className="col-md-4">
+          <form>
+              <label>Quantity: <input/></label>
+              <Button onClick={ this.addToCart } data-meal={ meal_item }>Add to Cart</Button>
+          </form>
+        </div>
+      </Well>
+    )
+  }
+
+  displayMenu = (menu) => {
+    // displays all meals
+    let menu_meals = []
+    for (var i in menu.menu) {
+      if (menu.menu.hasOwnProperty(i)) {
+        menu_meals = menu_meals.concat(menu.menu[i])
       }
     }
-    markup += "</tbody></table>"
-    var rows = {__html: markup}
+    // go through all meals
+    const menuNode = menu_meals.map((meal) => {
+      return (< this.Meal meal={ meal }  />)
+    })
+
     return (
-        <div dangerouslySetInnerHTML={rows} />
+        <div>
+          <div className="row">
+            <div className="col-md-1"><h4>Meal ID</h4></div>
+            <div className="col-md-2"><h4>Meal Name</h4></div>
+            <div className="col-md-3"><h4>Description</h4></div>
+            <div className="col-md-2"><h4>Price(Kes)</h4></div>
+            <div className="col-md-4"><h4>Ordering Details</h4></div>
+          </div>
+          { this.showAlert() }
+          { menuNode }
+        </div>
     );
     }
 
@@ -74,6 +125,7 @@ class Menu extends Component{
   }
 
   render = () => {
+    let menu = this.state.meals
     const cartItems = () => {
       return(
         <div>
@@ -85,7 +137,7 @@ class Menu extends Component{
       <div>
         <h3>Menu for Date: { timeConverter(this.state.date) }</h3>
         <Button onClick={ this.showCart }>CART</Button>
-        <this.displayMenu />
+        <this.displayMenu  menu={ menu }/>
         <Modal show={ this.state.show_cart } onHide={ this.dismissCart }>
           <Modal.Header closeButton>
             <Modal.Title><span>CART</span></Modal.Title>

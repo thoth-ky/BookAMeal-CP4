@@ -102,6 +102,7 @@ class Orders extends Component{
           </Modal>
       </Well>)
   }
+
   showDetail = () =>{
     this.setState({show_modal:true})
   }
