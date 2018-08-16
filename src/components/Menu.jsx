@@ -54,11 +54,13 @@ class Menu extends Component{
       'sub': price*quantity
     }
     let current_orders = this.state.cart
+    // check if meal_id already exists
     current_orders = current_orders.concat(order)
-    this.setState({ cart: current_orders})
+    let alert = 'Meal #' + meal_id +' added to cart!'
+    this.setState({ cart: current_orders, alert: alert})
   }
 
- removeFromCart = (e) => {
+  removeFromCart = (e) => {
    e.preventDefault()
 
    let meal_id = e.currentTarget.dataset.id;
@@ -77,7 +79,6 @@ class Menu extends Component{
  }
 
   Meal = (meal) => {
-    console.log('Meal',meal.meal);
     let meal_item = meal.meal
     let meal_id = meal_item.meal_id
     let name = meal_item.name
@@ -158,7 +159,42 @@ class Menu extends Component{
   }
 
   handlePlaceOrder = () => {
+    // give user option to abort here
     alert('Send Order')
+    var access_token = sessionStorage.getItem('access_token')
+    var url = '/api/v2/orders'
+    let cart = this.state.cart;
+    let order_list = [];
+    for (var i in cart) {
+      if (cart.hasOwnProperty(i)) {
+        let meal_id = cart[i].meal_id
+        let quantity = cart[i].quantity
+        order_list = order_list.concat({meal_id:meal_id, quantity:quantity})
+      }
+    }
+    // loop through cart and create orders
+    // provide form to select due time
+    let due_time = '16-08-2019 15-00'
+    let data = {due_time: due_time, order: order_list}
+    // clear cart state and stop showing modal
+    this.setState({show_cart: false, cart: []})
+    console.log('Order Data ', data);
+    fetch(url, {
+      headers: {
+        'content-type': 'application/json',
+        'Access-Control-Allow-Origin': "*",
+        'Authorization': access_token
+      },
+      body: JSON.stringify(data),
+      method: 'POST',
+      mode: 'cors',
+    })
+    .then((response)  => response.json())
+    .catch(error => console.error('Error: ', error))
+    .then((response) => {
+      console.log(response)
+      this.setState({ alert: response.message });
+    })
 
   }
 
@@ -207,7 +243,6 @@ class Menu extends Component{
             </Table>
             <Button onClick={ this.handlePlaceOrder }>Place Order</Button>
         </Well>
-
         )
       } else {
         return (

@@ -2,17 +2,31 @@ import React, { Component } from 'react';
 import { Well, Jumbotron, Panel, Modal, Button } from "react-bootstrap";
 import { timeConverter } from "../common/helpers"
 
+
+
+
+
 class Orders extends Component{
   constructor(props){
     super(props)
     this.state = {
       orders : '',
       admin_orders: '',
-      show_modal: false
+      show_modal: false,
+      meals_on_disp:null,
     }
     this.getOrders = this.getOrders.bind(this)
-    this.makeOrder = this.makeOrder.bind(this)
     this.getOrders()
+  }
+
+  mealNode = () =>{
+    let meals = this.state.meals_on_disp;
+    if (meals){
+      const meal_node = meals.map((meal) => {
+        return (< this.Meal meal={ meal } />)
+      })
+      return meal_node
+    }
   }
 
   getOrders(){
@@ -31,31 +45,7 @@ class Orders extends Component{
     .then(response => response.json())
     .catch(error => console.error('Error: error'))
     .then(response => {
-      console.log(response.message)
       this.setState({orders: response.orders, admin_orders: response.admin_orders})
-    })
-  }
-
-  makeOrder(order){
-    const access_token = sessionStorage.getItem('access_token')
-    const url = '/api/v2/orders'
-    const data = {'due_time':order.due_time, 'order': order.order_data}
-    // make a post request to API
-    fetch(url, {
-      body: JSON.stringify(data),
-      headers: {
-        'content-type': 'application/json',
-        'Authorization': access_token,
-        'Access-Control-Allow-Origin': "*",
-      },
-      method: 'POST',
-      mode: 'cors'
-    })
-    .then(response => response.json())
-    .catch(error => console.error(error))
-    .then(response => {
-      console.log(response.message);
-
     })
   }
 
@@ -72,18 +62,14 @@ class Orders extends Component{
   }
 
   Order = (order) =>{
-    console.log(order.order)
     let order_item = order.order;
 
     let id = order_item.order_id;
     let time_ordered = timeConverter(order_item.time_ordered);
     let due_time = timeConverter(order_item.time_ordered);
-    let meals = order_item.meals;
     let total = order_item.total;
     let owner = order_item.owner
-    const mealNode = meals.map((meal) => {
-      return (< this.Meal meal={ meal } />)
-    })
+
     return (
       <Well>
         <div className="col-md-1">{ id }</div>
@@ -91,25 +77,35 @@ class Orders extends Component{
         <div className="col-md-2">{ due_time }</div>
         <div className="col-md-1">{ owner }</div>
         <div className="col-md-2">{ total }</div>
-        <Button onClick={this.showDetail}>Show Meals</Button>
-          <Modal show={this.state.show_modal} onHide={this.handleCloseModal}>
-            <Modal.Header closeButton>
-              <Modal.Title><span>Meals for Order { id }</span></Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              { mealNode}
-            </Modal.Body>
-          </Modal>
+        <Button onClick={ this.showDetail } data-id={ id } >Show Meals</Button>
       </Well>)
   }
 
-  showDetail = () =>{
+  showDetail = (e) =>{
+    e.preventDefault()
+    let order_id = parseInt(e.currentTarget.dataset.id);
+    let orders = this.state.orders;
+
+    for (var i in orders) {
+      if (orders.hasOwnProperty(i)) {
+        if (order_id === orders[i]['order_id']){
+          console.log(order_id)
+          this.setState({meals_on_disp: orders[i]['meals']})
+        }
+      }
+    }
+    this.showModal()
+  }
+
+  showModal = () =>{
+
     this.setState({show_modal:true})
   }
 
   handleCloseModal = () =>{
     this.setState({show_modal: false})
   }
+
   displayOrders = (orders) =>{
     try {
       let order_list = orders.orders
@@ -123,7 +119,7 @@ class Orders extends Component{
         </div>
       )
     } catch (e) {
-      console.error('Err: ', e)
+      console.error('Error: ', e)
       return null
     }
   }
@@ -143,6 +139,14 @@ class Orders extends Component{
           </Well>
           <this.displayOrders orders={ orders }/>
         </Jumbotron>
+        <Modal show={this.state.show_modal} onHide={this.handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title><span>Meals for Order </span></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            { this.mealNode() }
+          </Modal.Body>
+        </Modal>
       </div>
     )
   }
