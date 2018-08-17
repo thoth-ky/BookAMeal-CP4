@@ -16,7 +16,7 @@ import Meal from "./components/Meal";
 import Orders from "./components/Orders";
 
 
-let isAdmin = '';
+let isAdmin = false;
 let userName = ''
 const checkIsAuthenticated = () => {
   const access_token = sessionStorage.getItem('access_token');
@@ -38,7 +38,7 @@ const checkIsAuthenticated = () => {
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
     checkIsAuthenticated()? <Component {...props} />
-  : <Redirect to={{ pathname: '/signin', state: { from: props.location, redirectToReferrer: true } }} />
+  : <Redirect to={{ pathname: '/signin', state: { from: props.location, redirectToReferrer: true, isAdmin: isAdmin} }} />
   )} />
 
 )
@@ -56,6 +56,7 @@ class App extends Component {
             <NavBar isAuthenticated={ authentication } isAdmin={ isAdmin } username={ userName }/>
           </header>
           <Switch>
+            <Route path="/" exact component={ Menu }/>
             <Route path="/signup" component={ SignUp }/>
             <Route path="/signin" component={ SignIn }/>
             <Route path="/signout" component={ SignOut }/>
@@ -64,7 +65,7 @@ class App extends Component {
             <PrivateRoute path="/meals/:meal_id" component={ Meal }/>
             <PrivateRoute path="/orders" component={ Orders } />
           </Switch>
-          <footer>
+          <footer className="w3-display-bottommiddle">
             <p>Footers Here</p>
           </footer>
         </div>

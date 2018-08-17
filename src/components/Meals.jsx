@@ -28,7 +28,13 @@ class Meals extends Component {
        method: 'GET',
        mode: 'cors',
      })
-     .then((response)  => response.json())
+     .then((response)  =>{
+
+       if (response.status === 401){
+         this.setState({error:'Ooops, this is a restricted area.'})
+       }
+       return response.json()
+     })
      .catch(error => console.error('Error: ', error))
      .then((response) => {
        this.setState({ meals: response.meals })
@@ -55,7 +61,7 @@ class Meals extends Component {
       method: 'POST',
       mode: 'cors',
     })
-    .then((response)  => response.json())
+    .then((response)  =>response.json())
     .catch(error => console.error('Error: ', error))
     .then(response => {
 
@@ -99,8 +105,16 @@ class Meals extends Component {
   }
 
   render(){
+    console.log(this.state.error)
+    if (this.state.error){
+      return(
+        <div className="w3-display-middle">
+          <p>{ this.state.error }</p>
+        </div>
+      )
+    }
     return(
-      <div>
+      <div className="w3-display-middle">
         <h2>Meals</h2>
         <div className="row">
           <div className="col-md-8" id="displaymeals">
