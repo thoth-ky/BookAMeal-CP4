@@ -149,7 +149,7 @@ class Orders extends Component{
     return (
       <Well>
         <div> Date: { date.date }</div>
-        <div>Total : { total } </div>
+        <div>Total :Kes  { total }.00 </div>
       </Well>
     )
   }
