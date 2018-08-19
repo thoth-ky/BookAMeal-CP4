@@ -13,7 +13,6 @@ import SignIn from "./components/SignIn";
 import SignOut from "./components/SignOut";
 import Menu from "./components/Menu"
 import Meals from "./components/Meals";
-import Meal from "./components/Meal";
 import Orders from "./components/Orders";
 
 
@@ -64,7 +63,6 @@ class App extends Component {
             <Route path="/signout" component={ SignOut }/>
             <PrivateRoute path="/menu" component={ Menu }/>
             <PrivateRoute exact path="/meals" component={ Meals }/>
-            <PrivateRoute path="/meals/:meal_id" component={ Meal }/>
             <PrivateRoute path="/orders" component={ Orders } />
           </Switch>
           <footer className="w3-display-container w3-teal">
