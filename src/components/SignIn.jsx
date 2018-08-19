@@ -6,7 +6,8 @@ class SignIn extends Component{
     super(props)
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      redirectToReferrer: null
     }
   }
 
@@ -40,29 +41,20 @@ class SignIn extends Component{
         alert('An error occured')
         console.log('Success:', response.message)
       }
+      const { from } = this.props.location.state || { from: { pathname: '/home' } }
+      window.location.replace(from.pathname)
+      this.setState({redirectTo: from.pathname})
 
-      let redirectToReferrer;
-      try {
-        redirectToReferrer = this.props.location.state.redirectToReferrer
-      } catch (e) {
-        redirectToReferrer = false
-      } finally {
-        const { from } = this.props.location.state || { from: { pathname: '/' } }
-        if (redirectToReferrer === true) {
-          console.log('that happened', from.pathname)
-          window.location.replace(from.pathname)
-          return <Redirect to={ from.pathname } />
-        } else {
-          window.location.replace('/home')
-        }
-      }
     })
     }
 
   render(){
+    if (this.state.redirectTo){
+      return (<Redirect to={ this.state.redirectTo } />)
+    }
     return(
       <div>
-        <form className="form-Group " onSubmit={this.handleSubmit}>
+        <form className="form-Group w3-display-middle" onSubmit={this.handleSubmit}>
                 <h3>Sign In</h3>
                 <label>
                     Username: <input type="text" className="form-control" name="username" onChange={ this.handleChange } required />

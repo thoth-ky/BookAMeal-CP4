@@ -46,7 +46,7 @@ class SignUp extends Component{
   render(){
     return(
       <div>
-        <form className="form-Group" onSubmit={ this.handleSubmit }>
+        <form className="form-Group w3-display-middle" onSubmit={ this.handleSubmit }>
           <h3> Don't have an account? Create One Here!</h3>
           <label>
             Username: <input type="text" className="form-control" placeholder="username" name="username" onChange={this.handleChange} required />
