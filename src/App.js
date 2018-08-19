@@ -5,6 +5,7 @@ import {
    Route,
    Redirect } from "react-router-dom";
 import decode from "jwt-decode";
+import { Well } from "react-bootstrap";
 
 import NavBar from "./common/NavBar";
 import SignUp from "./components/SignUp";
@@ -51,12 +52,13 @@ class App extends Component {
 
     return (
       <Router>
-        <div>
-          <header>
-            <NavBar isAuthenticated={ authentication } isAdmin={ isAdmin } username={ userName }/>
-          </header>
+        <div className="container">
+          <Well>
+            <header >
+              <NavBar isAuthenticated={ authentication } isAdmin={ isAdmin } username={ userName }/>
+            </header>
+          </Well>
           <Switch>
-            <Route path="/" exact component={ Menu }/>
             <Route path="/signup" component={ SignUp }/>
             <Route path="/signin" component={ SignIn }/>
             <Route path="/signout" component={ SignOut }/>
@@ -65,7 +67,7 @@ class App extends Component {
             <PrivateRoute path="/meals/:meal_id" component={ Meal }/>
             <PrivateRoute path="/orders" component={ Orders } />
           </Switch>
-          <footer className="w3-display-bottommiddle">
+          <footer className="w3-display-container w3-teal">
             <p>Footers Here</p>
           </footer>
         </div>

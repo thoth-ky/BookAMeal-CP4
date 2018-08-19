@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Well, Panel, Modal, Button, Tabs, Tab, Table } from "react-bootstrap";
+import { Well, Panel, Modal, Button, Tabs, Tab} from "react-bootstrap";
 import { timeConverter } from "../common/helpers"
 
 
@@ -150,7 +150,7 @@ class Orders extends Component{
 
     return(
       <div>
-
+        <h2>Orders Information</h2>
         <Tabs defaultActiveKey={1}>
           <Tab eventKey={1} title="My Orders">
             <Well>
@@ -167,6 +167,7 @@ class Orders extends Component{
             <this.displayDailySummaries/>
           </Tab>
         </Tabs>
+
         <Modal show={this.state.show_modal} onHide={this.handleCloseModal}>
           <Modal.Header closeButton>
             <Modal.Title><span>Meals for Order </span></Modal.Title>

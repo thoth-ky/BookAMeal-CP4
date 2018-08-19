@@ -114,7 +114,7 @@ class Meals extends Component {
       )
     }
     return(
-      <div className="w3-display-middle">
+      <div>
         <h2>Meals</h2>
         <div className="row">
           <div className="col-md-8" id="displaymeals">
