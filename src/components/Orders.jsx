@@ -127,15 +127,33 @@ class Orders extends Component{
     if(this.state.daily_summaries){
       let daily_summaries = this.state.daily_summaries
       let dates = Object.keys(daily_summaries)
-      return null
+
+      const dateNOde = dates.map((date) =>{
+        return (<this.Summary date={ date }/>)
+      })
+      return dateNOde
     } else {
       return null
     }
   }
 
-  Summary = (summary) =>{
-
+  Summary = (date) =>{
+    let date_summary = this.state.daily_summaries[date.date]
+    console.log(date_summary)
+    let total = 0;
+    for (var i in date_summary) {
+      if (date_summary.hasOwnProperty(i)) {
+        total += date_summary[i].total
+      }
+    }
+    return (
+      <Well>
+        <div> Date: { date.date }</div>
+        <div>Total : { total } </div>
+      </Well>
+    )
   }
+
   render = () => {
     let orders = this.state.orders;
     let orders_heading = (
@@ -154,7 +172,7 @@ class Orders extends Component{
         <Tabs defaultActiveKey={1}>
           <Tab eventKey={1} title="My Orders">
             <Well>
-              { orders_heading}
+              { orders_heading }
               <this.displayOrders orders ={ orders }/>
             </Well>
           </Tab>
@@ -164,7 +182,7 @@ class Orders extends Component{
             <this.displayOrders orders ={ this.state.admin_orders }/>
           </Tab>
           <Tab eventKey={3} title="Daily Summaries">
-            <this.displayDailySummaries/>
+            <this.displayDailySummaries />
           </Tab>
         </Tabs>
 
