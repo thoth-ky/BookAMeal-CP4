@@ -7,7 +7,8 @@ class SignIn extends Component{
     this.state = {
       username: '',
       password: '',
-      redirectToReferrer: null
+      redirectToReferrer: null,
+      alert: null
     }
   }
 
@@ -36,37 +37,48 @@ class SignIn extends Component{
       if(response.access_token){
         sessionStorage.setItem('access_token', 'Bearer ' + response.access_token)
         console.log('Success', response.message)
+        const { from } = this.props.location.state || { from: { pathname: '/' } }
+        this.setState({redirectTo: from.pathname})
       }
       else{
-        alert('An error occured')
-        console.log('Success:', response.message)
+        this.setState({alert: response.message})
+        console.log('Error:', response.message)
       }
-      const { from } = this.props.location.state || { from: { pathname: '/home' } }
-      window.location.replace(from.pathname)
-      this.setState({redirectTo: from.pathname})
-
     })
     }
 
   render(){
     if (this.state.redirectTo){
+      window.location.replace(this.state.redirectTo)
       return (<Redirect to={ this.state.redirectTo } />)
     }
+
+    let displayAlert = '';
+    if (this.state.alert) {
+      displayAlert = (
+        <div className="error">
+          <p>{ this.state.alert }</p>
+        </div>
+      )
+    }
     return(
-      <div>
-        <form className="form-Group w3-display-middle" onSubmit={this.handleSubmit}>
-                <h3>Sign In</h3>
-                <label>
-                    Username: <input type="text" className="form-control" name="username" onChange={ this.handleChange } required />
-                </label>
-                <br/>
-                <label>
-                    Password: <input type="password" className="form-control" name="password" onChange={ this.handleChange } required />
-                </label>
-                <br/>
-                <input className="btn btn-primary" type="submit" value="Sign In" />
-                <br/>
-                <p>Don't have an account?<Link to="/signup">Sign Up</Link> </p>
+      <div className="center">
+
+        <form className="form-Group w3-display-middle center" onSubmit={this.handleSubmit}>
+
+          <h3>Sign In</h3>
+          { displayAlert }
+          <label>
+              Username: <input type="text" name="username" onChange={ this.handleChange } required />
+          </label>
+          <br/>
+          <label>
+              Password: <input type="password" name="password" onChange={ this.handleChange } required />
+          </label>
+          <br/>
+          <input className="btn btn-primary" type="submit" value="Sign In" />
+          <br/>
+          <p>Don't have an account?<Link to="/signup" className="links">Sign Up</Link> </p>
         </form>
       </div>
     );

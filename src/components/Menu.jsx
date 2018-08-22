@@ -51,11 +51,28 @@ class Menu extends Component {
       meal_name: meal_name,
       quantity:quantity,
       price:price,
-      'sub': price*quantity
+      sub: price*quantity
     }
     let current_orders = this.state.cart
-    // check if meal_id already exists
-    current_orders = current_orders.concat(order)
+    // check if meal_id already exist
+    let updated = false
+    for (var i in current_orders) {
+      if (current_orders.hasOwnProperty(i)) {
+        let _order = current_orders[i]
+        if (_order.meal_id === meal_id) {
+          let new_quantity = parseInt(_order.quantity, 10) + parseInt(quantity, 10)
+          _order.quantity = new_quantity
+          _order.sub = new_quantity * _order.price
+
+          updated = true
+        }
+      }
+    }
+    if (!updated) {
+      current_orders = current_orders.concat(order)
+      console.log(current_orders);
+    }
+
     let alert = 'Meal #' + meal_id +' added to cart!'
     this.setState({ cart: current_orders, alert: alert})
   }
@@ -92,8 +109,8 @@ class Menu extends Component {
         <div className="col-md-2">Kes { price }.00</div>
         <div className="col-md-4">
           <form>
-              <label>Quantity: <input type="number" min="0" name="quantity" onChange={ this.handleChange }/></label>
-              <Button onClick={ this.addToCart } data-id={ meal_id } data-quantity={ this.state.quantity } data-name={ name } data-price={ price }>Add to Cart</Button>
+              <label>Quantity: <input type="number" min="1" name="quantity" onChange={ this.handleChange }/></label>
+              <Button bsStyle="primary" onClick={ this.addToCart } data-id={ meal_id } data-quantity={ this.state.quantity } data-name={ name } data-price={ price }>Add to Cart</Button>
           </form>
         </div>
       </Well>
@@ -210,7 +227,7 @@ class Menu extends Component {
               <td>{ order.order.quantity }</td>
               <td>{ order.order.price }</td>
               <td>{ order.order.sub }</td>
-              <td><Button onClick={ this.removeFromCart } data-id={ order.order.meal_id }>Remove</Button></td>
+              <td><Button bsStyle="primary" onClick={ this.removeFromCart } data-id={ order.order.meal_id }>Remove</Button></td>
             </tr>
 
           )
@@ -239,7 +256,7 @@ class Menu extends Component {
                 </tr>
               </tbody>
             </Table>
-            <Button onClick={ this.handlePlaceOrder }>Place Order</Button>
+            <Button bsStyle="primary" onClick={ this.handlePlaceOrder }>Place Order</Button>
         </Well>
         )
       } else {
@@ -252,8 +269,17 @@ class Menu extends Component {
     }
     return (
       <div>
-        <h3>Menu for Date: { timeConverter(this.state.date) }</h3>
-        <Button onClick={ this.showCart }>CART</Button>
+        <div className="w3-cell-row">
+
+          <div className="w3-container w3-cell">
+            <h3 >Menu for Date: { timeConverter(this.state.date) }</h3>
+          </div>
+
+          <div className="w3-container w3-cell">
+            <Button bsStyle="primary" onClick={ this.showCart }><i className="fa fa-shopping-cart cart"></i></Button>
+          </div>
+        </div>
+
         <this.displayMenu  menu={ menu }/>
         <Modal show={ this.state.show_cart } onHide={ this.dismissCart }>
           <Modal.Header closeButton>

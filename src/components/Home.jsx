@@ -1,17 +1,24 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { Well } from "react-bootstrap";
 
 
 class Home extends Component {
   render = () => {
     return(
       <div>
-        <div>
-          <p>Welcome to Book A Meal</p>
+        <div className="center">
+          <h3>Welcome to Book A Meal</h3>
         </div>
+        <div className="center">
+          <Well>
+            <span>Go straight to the<Link className="links" to="/menu">Menu</Link>?</span>
+          </Well>
+          <Well>
+            <span>Checkout my <Link className="links" to="/orders">Order History</Link>?</span>
+          </Well>
 
-        <div>
-          <spam>Go straight to the Menu?</spam>
-          <spam>Checkout my Order History?</spam>
+
         </div>
       </div>
     )

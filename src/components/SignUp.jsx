@@ -1,9 +1,17 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 
 class SignUp extends Component{
   constructor(props){
     super(props)
-    this.state = { username: '' , email: '', password: '', password1: '' }
+    this.state = {
+      username: '' ,
+      email: '',
+      password: '',
+      password1: '',
+      alert: null
+    }
   }
 
   handleChange = (event) => {
@@ -13,7 +21,7 @@ class SignUp extends Component{
 
   handleSubmit = (event) => {
     event.preventDefault();
-    if (this.state.password === this.state.password1 && this.state.password.length > 8){
+    if (this.state.password === this.state.password1 && this.state.password.length >= 8){
       var url = '/api/v2/signup'
       var data = { 'username': this.state.username, 'email': this.state.email, 'password': this.state.password }
       console.log(data)
@@ -32,22 +40,36 @@ class SignUp extends Component{
         if (response.access_token) {
             sessionStorage.setItem('access_token', 'Bearer ' + response.access_token);
             console.log('Success', response.message);
+            window.location.replace('/')
         } else {
-          alert('An error occured')
+          this.setState({alert: response.message})
           console.log(response.message)
+
         }
-        window.location.replace('/home')
+
       })
     } else {
-      alert('Ensure passwords match and use more than 8 characters')
+      let msg = 'Ensure passwords match and use more than 8 characters'
+      this.setState({alert: msg})
     }
   }
 
   render(){
+    let displayAlert = '';
+    if (this.state.alert){
+      displayAlert = (
+        <div className="error">
+          <p>{ this.state.alert }</p>
+        </div>
+      )
+    }
     return(
       <div>
-        <form className="form-Group w3-display-middle" onSubmit={ this.handleSubmit }>
-          <h3> Don't have an account? Create One Here!</h3>
+
+        <form className="form-Group w3-display-middle center" onSubmit={ this.handleSubmit }>
+
+          <h3> Registration Form</h3>
+          { displayAlert }
           <label>
             Username: <input type="text" className="form-control" placeholder="username" name="username" onChange={this.handleChange} required />
           </label>
@@ -57,14 +79,16 @@ class SignUp extends Component{
           </label>
           <br/>
           <label>
-              Password: <input type="password" className="form-control" onChange={this.handleChange} name="password" required />
+              Password: <input type="password" className="form-control" onChange={this.handleChange} name="password" pattern=".{8,}" required title="Atleast 8 characters." />
           </label>
           <br/>
           <label>
-              Confirm Password: <input type="password" className="form-control" onChange={this.handleChange} name="password1" required />
+              Confirm Password: <input type="password" className="form-control" onChange={this.handleChange} name="password1" pattern=".{8,}" required title="Atleast 8 characters." />
           </label>
           <br/>
           <input className="btn btn-primary" type="submit" value="Sign Up" />
+            <br/>
+            <p>Already have an account?<Link to="/signin" className="links">Sign In</Link> </p>
       </form>
       </div>
     );

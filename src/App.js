@@ -18,14 +18,11 @@ import Meals from "./components/Meals";
 import Orders from "./components/Orders";
 
 
-let isAdmin = false;
-let userName = ''
+
 const checkIsAuthenticated = () => {
-  const access_token = sessionStorage.getItem('access_token');
+  let access_token = sessionStorage.getItem('access_token');
   try {
-    var { exp, admin, username } = decode(access_token);
-    isAdmin = admin
-    userName = username
+    let { exp } = decode(access_token);
 
     if (exp > new Date().getTime()) {
       return false
@@ -40,7 +37,7 @@ const checkIsAuthenticated = () => {
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
     checkIsAuthenticated()? <Component {...props} />
-  : <Redirect to={{ pathname: '/signin', state: { from: props.location, redirectToReferrer: true, isAdmin: isAdmin} }} />
+  : <Redirect to={{ pathname: '/signin', state: { from: props.location, redirectToReferrer: true} }} />
   )} />
 
 )
@@ -49,23 +46,32 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      isAuthenticated: checkIsAuthenticated()
+      isAuthenticated: checkIsAuthenticated(),
     }
+
   }
 
   render() {
+    let isAdmin = false;
+    let userName= '';
+    let authentication = checkIsAuthenticated()
+    if (authentication) {
+      let access_token = sessionStorage.getItem('access_token');
+      let { admin, username } = decode(access_token);
 
-    let authentication = this.state.isAuthenticated
-
+      isAdmin = admin;
+      userName = username;
+    }
+    console.log(authentication, isAdmin, userName);
     return (
       <Router>
-        <div className="container">
+        <div>
           <Well>
             <header >
               <NavBar isAuthenticated={ authentication } isAdmin={ isAdmin } username={ userName }/>
             </header>
           </Well>
-          <Switch className="container">
+          <Switch>
             <PrivateRoute exact path="/" component={ Home} />
             <Route path="/signup" component={ SignUp }/>
             <Route path="/signin" component={ SignIn }/>
@@ -74,12 +80,10 @@ class App extends Component {
             <PrivateRoute path="/meals" component={ Meals }/>
             <PrivateRoute path="/orders" component={ Orders } />
           </Switch>
-          <div className="container w3-teal">
-            <ul>
-              <li><NavLink to="/about"> About </NavLink></li>
-              <li><NavLink to="/privacy"> Privacy </NavLink></li>
-              <li><NavLink to="/contacts"> Contact Us </NavLink></li>
-            </ul>
+          <div className="footer w3-teal">
+            <NavLink className="links" to="/about"> About </NavLink>
+            <NavLink className="links" to="/privacy"> Privacy </NavLink>
+            <NavLink className="links" to="/contacts"> Contact Us </NavLink>
           </div>
         </div>
       </Router>
