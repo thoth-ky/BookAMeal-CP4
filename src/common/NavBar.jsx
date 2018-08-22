@@ -40,10 +40,10 @@ class NavBar extends Component{
       <nav className="navbar navbar-inverse row navbar-fixed-top">
         <div className="container-fluid">
           <div className="navbar-header">
-            <NavLink className="navbar-brand" to="/home">Hot Corner Delicacies</NavLink>
+            <NavLink className="navbar-brand" to="/">Hot Corner Delicacies</NavLink>
           </div>
           <ul className="nav navbar-nav">
-            <li><NavLink to="/home"> Home </NavLink></li>
+            <li><NavLink to="/"> Home </NavLink></li>
             <li><NavLink to="/menu"> Menu </NavLink></li>
             <li><NavLink to="/orders"> Orders </NavLink></li>
             { adminNav }

@@ -3,7 +3,7 @@ import { Button, Alert, Well, Modal, Table } from "react-bootstrap";
 import { timeConverter } from "../common/helpers";
 
 
-class Menu extends Component{
+class Menu extends Component {
   constructor(props){
     super(props)
     this.state = {
