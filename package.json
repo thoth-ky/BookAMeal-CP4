@@ -2,7 +2,7 @@
   "name": "bam-ui",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://bookameal-staging.herokuapp.com",
+  "proxy": "http://0.0.0.0:5000",
   "dependencies": {
     "jest": "^23.2.0",
     "jwt-decode": "^2.2.0",
