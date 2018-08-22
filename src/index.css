@@ -43,3 +43,19 @@ body {
     padding: 5px;
 
 }
+
+.cart{
+    font-size: 48px;
+}
+
+.left{
+    position: absolute;
+    left: 0
+
+}
+
+.right{
+    position: absolute;
+    right: 0;
+
+}

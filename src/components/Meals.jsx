@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Well, Button, Modal, Panel } from "react-bootstrap";
+import { Alert, Well, Button, ButtonGroup, Modal, Panel } from "react-bootstrap";
 
 class Meals extends Component {
   constructor(props){
@@ -139,12 +139,14 @@ class Meals extends Component {
             <div className="col-md-2">{ name }</div>
             <div className="col-md-5">{ description }</div>
             <div className="col-md-2">Kes { price }.00</div>
-            <Button onClick={ this.showDetail } bsStyle="primary" data-id={ meal_id} data-price={ price } data-name={ name } data-description={ description }>
-              Details
-            </Button>
-            <Button onClick={ this.addToMenu } bsStyle="primary" data-id={ meal_id}>
-              Add To Menu
-            </Button>
+            <ButtonGroup>
+              <Button onClick={ this.showDetail } bsStyle="primary" data-id={ meal_id} data-price={ price } data-name={ name } data-description={ description }>
+                Details
+              </Button>
+              <Button onClick={ this.addToMenu } bsStyle="primary" data-id={ meal_id}>
+                Add To Menu
+              </Button>
+            </ButtonGroup>
           </div>
         </Panel.Body>
       </Panel>
@@ -166,7 +168,6 @@ class Meals extends Component {
   }
 
   handleCloseModal = (e) =>{
-    e.preventDefault()
     this.setState({ show_modal: false })
   }
 
@@ -267,12 +268,30 @@ class Meals extends Component {
         </div>
       )
     }
+    let buttons = '';
+
+    if (this.state.meal_id) {
+      buttons = (
+        <ButtonGroup>
+          <Button onClick={ this.editMeal } bsStyle="primary">EDIT</Button>
+          <Button onClick={ this.deleteMeal } bsStyle="danger">DELETE</Button>
+        </ButtonGroup>
+
+      )
+    } else {
+      buttons =(
+        <Button onClick={ this.createMeal } bsStyle="primary">CREATE</Button>
+      )
+    }
+
     return(
       <div>
         <div className="w3-cell-row">
           <h2 className="w3-conatiner w3-cell">Meals</h2>
-          <Button className=" w3-container w3-cell" bsStyle="primary" onClick={ this.showDetail } bsSize="lg">CREATE A NEW MEAL</Button>
-          <Button className=" w3-container w3-cell" bsStyle="primary" onClick={ this.getMeals } bsSize="lg">REFRESH</Button>
+          <ButtonGroup>
+            <Button className=" w3-container w3-cell" bsStyle="primary" onClick={ this.showDetail } bsSize="lg">CREATE A NEW MEAL</Button>
+            <Button className=" w3-container w3-cell" bsStyle="primary" onClick={ this.getMeals } bsSize="lg">REFRESH</Button>
+          </ButtonGroup>
         </div>
         <div>
           < this.displaymeals />
@@ -296,9 +315,10 @@ class Meals extends Component {
                 <label>Price</label>
                 <input className="form-control" name="price" placeholder="0.00" value={ this.state.price } onChange={ this.handleChange } type="number" min="0.00" required/>
               </div>
-              <Button onClick={ this.editMeal } bsStyle="primary">EDIT</Button>
-              <Button onClick={ this.deleteMeal } bsStyle="primary">DELETE</Button>
-              <Button onClick={ this.createMeal } bsStyle="primary">CREATE</Button>
+                { buttons }
+              <div>
+                <span><strong>NB:</strong><p>Meals with Orders attached can't be deleted!</p></span>
+              </div>
             </form>
           </Modal.Body>
         </Modal>
