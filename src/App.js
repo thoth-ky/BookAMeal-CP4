@@ -3,11 +3,13 @@ import {
    BrowserRouter as Router,
    Switch,
    Route,
+   NavLink,
    Redirect } from "react-router-dom";
 import decode from "jwt-decode";
 import { Well } from "react-bootstrap";
 
 import NavBar from "./common/NavBar";
+import Home from "./components/Home";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import SignOut from "./components/SignOut";
@@ -44,10 +46,16 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 )
 
 class App extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      isAuthenticated: checkIsAuthenticated()
+    }
+  }
 
   render() {
 
-    let authentication = checkIsAuthenticated()
+    let authentication = this.state.isAuthenticated
 
     return (
       <Router>
@@ -57,17 +65,22 @@ class App extends Component {
               <NavBar isAuthenticated={ authentication } isAdmin={ isAdmin } username={ userName }/>
             </header>
           </Well>
-          <Switch>
+          <Switch className="container">
+            <PrivateRoute exact path="/" component={ Home} />
             <Route path="/signup" component={ SignUp }/>
             <Route path="/signin" component={ SignIn }/>
-            <Route path="/signout" component={ SignOut }/>
+            <PrivateRoute path="/signout" component={ SignOut }/>
             <PrivateRoute path="/menu" component={ Menu }/>
-            <PrivateRoute exact path="/meals" component={ Meals }/>
+            <PrivateRoute path="/meals" component={ Meals }/>
             <PrivateRoute path="/orders" component={ Orders } />
           </Switch>
-          <footer className="w3-display-container w3-teal">
-            <p>Footers Here</p>
-          </footer>
+          <div className="container w3-teal">
+            <ul>
+              <li><NavLink to="/about"> About </NavLink></li>
+              <li><NavLink to="/privacy"> Privacy </NavLink></li>
+              <li><NavLink to="/contacts"> Contact Us </NavLink></li>
+            </ul>
+          </div>
         </div>
       </Router>
     );
