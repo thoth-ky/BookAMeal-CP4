@@ -9,11 +9,7 @@ describe('These are tests for Signin component', () => {
     const username = <span>Username:</span>
     expect(wrapper.find('div').length).toBe(1);
     expect(wrapper.find('form').length).toBe(1);
+    expect(wrapper.find('label').length).toBe(2);
     expect(wrapper.contains(title)).toEqual(true);
-    expect(wrapper.contains('Password:')).toEqual(true);
-    expect(wrapper.contains(username)).toEqual(true);
-
-
-
   })
 })

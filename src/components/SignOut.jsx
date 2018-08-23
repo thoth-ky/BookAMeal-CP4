@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom"
 
-const url = '/api/v2/signout';
-const access_token = sessionStorage.getItem('access_token');
+
+
 
 class SignOut extends Component{
   constructor(props){
@@ -10,10 +10,11 @@ class SignOut extends Component{
     this.state = { isLoggedOut: false}
   }
   signOut = () => {
+    const access_token = sessionStorage.getItem('access_token');
     const url = '/api/v2/signout';
     fetch (url, {
       headers: {
-        'Authorization': this.state.access_token,
+        'Authorization': access_token,
         'content-type': 'application/json',
         'Access-Control-Allow-Origin': "*",
       },

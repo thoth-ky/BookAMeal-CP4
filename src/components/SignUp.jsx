@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 
 class SignUp extends Component{
@@ -81,16 +80,16 @@ class SignUp extends Component{
           </label>
           <br/>
           <label>
-              Password: <input type="password" className="form-control" onChange={this.handleChange} name="password" pattern=".{8,}" required title="Atleast 8 characters." />
+              <span>Password:</span> <input type="password" className="form-control" onChange={this.handleChange} name="password" pattern=".{8,}" required title="Atleast 8 characters." />
           </label>
           <br/>
           <label>
-              Confirm Password: <input type="password" className="form-control" onChange={this.handleChange} name="password1" pattern=".{8,}" required title="Atleast 8 characters." />
+              <span>Confirm Password:</span> <input type="password" className="form-control" onChange={this.handleChange} name="password1" pattern=".{8,}" required title="Atleast 8 characters." />
           </label>
           <br/>
           <input className="btn btn-primary" type="submit" value="Sign Up" />
             <br/>
-            <p>Already have an account?<Link to="/signin" className="links">Sign In</Link> </p>
+            <p>Already have an account?<a to="/signin" className="links">Sign In</a> </p>
       </form>
       </div>
     );

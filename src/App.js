@@ -62,7 +62,6 @@ class App extends Component {
       isAdmin = admin;
       userName = username;
     }
-    console.log(authentication, isAdmin, userName);
     return (
       <Router>
         <div>
@@ -80,11 +79,11 @@ class App extends Component {
             <PrivateRoute path="/meals" component={ Meals }/>
             <PrivateRoute path="/orders" component={ Orders } />
           </Switch>
-          <div className="footer w3-teal">
+          <Well className="footer w3-teal">
             <NavLink className="links" to="/about"> About </NavLink>
             <NavLink className="links" to="/privacy"> Privacy </NavLink>
             <NavLink className="links" to="/contacts"> Contact Us </NavLink>
-          </div>
+          </Well>
         </div>
       </Router>
     );

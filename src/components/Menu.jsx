@@ -19,7 +19,7 @@ class Menu extends Component {
     this.getMenu()
   }
 
-  handleChange = (event) => {
+  handleChange = (event) =>{
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
 
