@@ -2,13 +2,13 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import fetchMock from 'fetch-mock';
 import sessionStorage from 'mock-local-storage';
-import SignUp from './SignUp.jsx';
-import { wrap } from 'module';
+import SignUp from './SignUp';
+
 
 describe('These are tests for signup component', () => {
   it('test signup has all html tags', () => {
-    let wrapper = shallow(<SignUp />);
-    let button = <input className="btn btn-primary" type="submit" value="Sign Up" />
+    const wrapper = shallow(<SignUp />);
+    const button = <input className="btn btn-primary" type="submit" value="Sign Up" />
 
     expect(wrapper.find('div').length).toBe(1);
     expect(wrapper.find('form').length).toBe(1);
