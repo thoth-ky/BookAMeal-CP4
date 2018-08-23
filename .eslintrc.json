@@ -4,6 +4,8 @@
     "rules": {
         "quotes": "warn",
         "semi":"off",
-        "object-shorthand":"off"
+        "object-shorthand":"off",
+        "object-curly-newline":"off",
+        "no-console":"off"
     }
 }
