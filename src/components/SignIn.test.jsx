@@ -1,5 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import fetchMock from 'fetch-mock';
+import sessionStorage from 'mock-local-storage';
 import SignIn from './SignIn';
 
 describe('These are tests for Signin component', () => {
@@ -12,4 +14,13 @@ describe('These are tests for Signin component', () => {
     expect(wrapper.contains(title)).toEqual(true);
   })
 
+  it('can login', () => {
+    fetchMock.post('/api/v2/signin', { access_token: 'valid access token', message: 'User successfully logged in.' });
+    const wrapper = mount(<SignIn />);
+    wrapper.setState({ username: 'kyalo', password: 'password' })
+    const form = wrapper.find('form')
+    form.simulate('submit')
+    expect(wrapper.state().redirectTo).toEqual('/')
+    fetchMock.restore()
+  })
 })

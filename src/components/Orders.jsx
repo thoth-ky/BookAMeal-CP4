@@ -198,8 +198,5 @@ class Orders extends Component{
       </div>
     )
   }
-
 }
-
-
 export default Orders;

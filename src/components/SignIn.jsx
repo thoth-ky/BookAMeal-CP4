@@ -86,7 +86,7 @@ class SignIn extends Component {
           <br />
           <p>
             { "Don't have an account? "}
-            <Link to="/signup" className="links">Sign Up</Link>
+            <a to="/signup" className="links">Sign Up</a>
           </p>
         </form>
       </div>

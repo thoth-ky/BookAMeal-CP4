@@ -256,8 +256,8 @@ class Meals extends Component {
     this.setState({alert: null})
   }
 
-  render(){
-    if (this.state.meals.length === 0){
+  render = () => {
+    if (this.state.meals.length === 0) {
       this.getMeals()
     }
 

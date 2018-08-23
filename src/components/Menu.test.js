@@ -6,8 +6,8 @@ import sessionStorage from 'mock-local-storage';
 
 describe('Tests for Orders', () => {
   it('displays all required info', () => {
-    const wrapper = shallow(<Menu/>);
-    const title = <h2>Menu</h2>
+    // const wrapper = shallow(<Menu/>);
+    // const title = <h2>Menu</h2>
 
   })
 })
