@@ -18,7 +18,7 @@ class SignUp extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit(event){
     event.preventDefault();
     const { password, password1, username, email } = this.state
     if (password === password1 && password.length >= 8) {
