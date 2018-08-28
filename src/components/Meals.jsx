@@ -109,7 +109,7 @@ class Meals extends Component {
 
   showDetail = (e) => {
     e.preventDefault()
-    const { id, name, description, price } = e.currentTarget.d
+    const { id, name, description, price } = e.currentTarget.dataset
     const meal_id = id
     const meal_name = name
 
@@ -124,7 +124,7 @@ class Meals extends Component {
 
   Meal = (meal) => {
     const meal_item = meal.meal
-    const { meal_id, name, description, price } = meal_item.meal_id
+    const { meal_id, name, description, price } = meal_item
     return (
       <Panel bsStyle="primary">
         <Panel.Heading>
@@ -151,9 +151,8 @@ class Meals extends Component {
 
   displaymeals = () => {
     const { meals } = this.state
-    const mealNode = meals.map((meal) => {
-      return (<this.Meal meal={meal} />)
-    })
+    const mealNode = meals.map(meal => (
+      <this.Meal meal={meal} />))
 
     return (
       <Well>
