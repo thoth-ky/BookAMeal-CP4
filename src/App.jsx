@@ -45,42 +45,74 @@ const PrivateRoute = ({ component: Compo, ...rest }) => (
     )}
   />
 )
-const authenticated = isAuthenticated()
-const access_token = sessionStorage.getItem('access_token')
-const { admin, username } = decode(access_token)
 
-console.log('Auth: ', authenticated)
-console.log('Admin: ', admin)
-console.log('Username: ', username)
+class App extends Component {
+  // default state
+  constructor(props) {
+    super(props)
+    this.state = {
+      authenticated: false,
+      admin: false,
+      username: null,
+    }
+  }
 
-const App = () => (
-  <Router>
-    <div>
-      <Well>
-        <header>
-          <NavBar isAuthenticated={authenticated} isAdmin={admin} username={username} />
-        </header>
-      </Well>
-      
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/signin" component={SignIn} />
-        <PrivateRoute path="/signout" component={SignOut} />
-        <PrivateRoute path="/menu" component={Menu} />
-        <PrivateRoute path="/meals" component={Meals} />
-        <PrivateRoute path="/orders" component={Orders} />
-      </Switch>
+  componentDidMount() {
+    this.checkAuth()
+  }
 
-      <Well className="footer w3-teal">
-        <NavLink className="links" to="/about"> About </NavLink>
-        <NavLink className="links" to="/privacy"> Privacy </NavLink>
-        <NavLink className="links" to="/contacts"> Contact Us </NavLink>
-      </Well>
-    </div>
-  </Router>
-)
+  checkAuth() {
+    // check if user is authenticated and in what role
+    const token = sessionStorage.getItem('access_token')
+    try {
+      const { admin, username } = decode(token)
+      console.log(' NO error')
+      this.setState({
+        authenticated: true,
+        admin: admin,
+        username: username,
+      })
+      console.log(this.state)
+    } catch (error) {
+      this.setState({
+        authenticated: false,
+        admin: false,
+        username: null,
+      })
+    }
+  }
 
+  render = () => {
+    const { authenticated, admin, username } = this.state
+    console.log('app props', this.props)
+    return (
+      <Router>
+        <div>
+          <Well>
+            <header>
+              <NavBar isAuthenticated={authenticated} isAdmin={admin} username={username} />
+            </header>
+          </Well>
+          
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/signin" component={SignIn} />
+            <PrivateRoute path="/signout" component={SignOut} />
+            <PrivateRoute path="/menu" component={Menu} />
+            <PrivateRoute path="/meals" component={Meals} />
+            <PrivateRoute path="/orders" component={Orders} />
+          </Switch>
 
+          <Well className="footer w3-teal">
+            <NavLink className="links" to="/about"> About </NavLink>
+            <NavLink className="links" to="/privacy"> Privacy </NavLink>
+            <NavLink className="links" to="/contacts"> Contact Us </NavLink>
+          </Well>
+        </div>
+      </Router>
+    )
+  }
+}
 
 export default App;

@@ -52,6 +52,7 @@ class SignIn extends Component {
   render() {
     const { redirectTo } = this.state
     if (redirectTo) {
+      window.location.replace(redirectTo)
       return (<Redirect to={redirectTo} />)
     }
 

@@ -24,14 +24,13 @@ class SignOut extends Component {
       .then((response) => {
         console.log('Success:', response.message)
         sessionStorage.removeItem('access_token')
+        window.location.replace('/signin')
       })
   }
 
-  render = () => {
-    return (
-      <Redirect to="/signin" />
-    )
-  }
+  render = () => (
+    <Redirect to="/signin" />
+  )
 }
 
 export default SignOut;
