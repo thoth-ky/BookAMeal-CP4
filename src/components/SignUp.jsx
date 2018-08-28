@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink, Redirect } from 'react-router-dom';
 
 
 class SignUp extends Component {
@@ -10,6 +11,7 @@ class SignUp extends Component {
       password: '',
       password1: '',
       alert: null,
+      redirect: null,
     }
   }
 
@@ -18,7 +20,7 @@ class SignUp extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit(event){
+  handleSubmit = (event) => {
     event.preventDefault();
     const { password, password1, username, email } = this.state
     if (password === password1 && password.length >= 8) {
@@ -39,14 +41,13 @@ class SignUp extends Component {
           if (response.access_token) {
             sessionStorage.setItem('access_token', `Bearer ${response.access_token}`);
             const msg = response.message
-            this.setState({ alert: msg })
+            // this.setState({ alert: msg })
             console.log('Success: ', msg);
             console.log('Token: ', response.access_token);
-            window.location.replace('/')
-          } else {
-            const msg = response.message
-            this.setState({ alert: msg })
+            this.setState({ redirect: '/' })
           }
+          const msg = response.message
+          this.setState({ alert: msg })
         })
     } else {
       const msg = 'Ensure passwords match and use more than 8 characters'
@@ -56,7 +57,8 @@ class SignUp extends Component {
 
   render() {
     let displayAlert = '';
-    const { alert } = this.state
+    const { alert, redirect } = this.state
+
     if (alert) {
       displayAlert = (
         <div className="error">
@@ -64,6 +66,11 @@ class SignUp extends Component {
         </div>
       )
     }
+
+    if (redirect) {
+      return (<Redirect to="/" />)
+    }
+
     return (
       <div>
 
@@ -95,7 +102,7 @@ class SignUp extends Component {
           <br />
           <p>
             {'Already have an account?' }
-            <a to="/signin" className="links">Sign In</a>
+            <NavLink to="/signin" className="links">Sign In</NavLink>
           </p>
         </form>
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 
 class SignIn extends Component {
   constructor(props) {
@@ -52,7 +52,6 @@ class SignIn extends Component {
   render() {
     const { redirectTo } = this.state
     if (redirectTo) {
-      window.location.replace(redirectTo)
       return (<Redirect to={redirectTo} />)
     }
 
@@ -86,7 +85,7 @@ class SignIn extends Component {
           <br />
           <p>
             { "Don't have an account? "}
-            <a to="/signup" className="links">Sign Up</a>
+            <NavLink to="/signup" className="links">Sign Up</NavLink>
           </p>
         </form>
       </div>
