@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Well, Button, ButtonGroup, Modal, Panel } from 'react-bootstrap';
+import swal from 'sweetalert';
 
 class Meals extends Component {
   constructor(props) {
@@ -170,73 +171,103 @@ class Meals extends Component {
     event.preventDefault()
     const access_token = sessionStorage.getItem('access_token')
     const { meal_id } = this.state
-    if (meal_id) {
-      const url = `/api/v2/meals/${meal_id}`
-      fetch(url, {
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          Authorization: access_token,
-        },
-        method: 'DELETE',
-        mode: 'cors',
+    swal({
+      title: `Are you sure you want to delete this meal #${meal_id}?`,
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          if (meal_id) {
+            const url = `/api/v2/meals/${meal_id}`
+            fetch(url, {
+              headers: {
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                Authorization: access_token,
+              },
+              method: 'DELETE',
+              mode: 'cors',
+            })
+              .then(response => response.json())
+              .catch(error => console.error('Error: ', error))
+              .then((response) => {
+                this.setState({
+                  meal_id: null,
+                  name: null,
+                  description: null,
+                  price: null,
+                  show_modal: false,
+                  alert: response.message,
+                })
+                console.log(response.message)
+              })
+          } else {
+            this.setState({ alert: 'Sorry, Cannot delete non-existent meal' })
+          }
+          swal('Poof! The Meal has been deleted', {
+            icon: 'success',
+          });
+        } else {
+          swal('Delete operation aborted');
+        }
       })
-        .then(response => response.json())
-        .catch(error => console.error('Error: ', error))
-        .then((response) => {
-          alert('Call delete Dangerous action')
-          this.setState({
-            meal_id: null,
-            name: null,
-            description: null,
-            price: null,
-            show_modal: false,
-            alert: response.message,
-          })
-          console.log(response.message)
-        })
-    } else {
-      this.setState({ alert: 'Sorry, Cannot delete non-existent meal' })
-    }
   }
 
   editMeal = (event) => {
     event.preventDefault()
-    alert(' Confirm Edit')
     const access_token = sessionStorage.getItem('access_token')
     const { meal_id, name, description, price } = this.state
-    if (meal_id) {
-      const data = {
-        name: name,
-        description: description,
-        price: price }
-      const url = `/api/v2/meals/ ${meal_id}`
-      console.log(url);
-      fetch(url, {
-        body: JSON.stringify({ new_data: data }),
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          Authorization: access_token,
-        },
-        method: 'PUT',
-        mode: 'cors',
-      })
-        .then(response => response.json())
-        .catch(error => console.error('Error: ', error))
-        .then((response) => {
-          this.setState({
-            meal_id: null,
-            name: null,
-            description: null,
-            price: null,
-            show_modal: false,
-            alert: response.message,
+    swal({
+      title: `Are you sure you want to edit this meal #${meal_id}?`,
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willEdit) => {
+        // check willedit true
+        if (willEdit) {
+          if (meal_id) {
+            const data = {
+              name: name,
+              description: description,
+              price: price }
+            const url = `/api/v2/meals/ ${meal_id}`
+            console.log(url);
+            fetch(url, {
+              body: JSON.stringify({ new_data: data }),
+              headers: {
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                Authorization: access_token,
+              },
+              method: 'PUT',
+              mode: 'cors',
+            })
+              .then(response => response.json())
+              .catch(error => console.error('Error: ', error))
+              .then((response) => {
+                this.setState({
+                  meal_id: null,
+                  name: null,
+                  description: null,
+                  price: null,
+                  show_modal: false,
+                  alert: response.message,
+                })
+              })
+          } else {
+            this.setState({ alert: 'Sorry, Cannot edit non-existent meal' })
+          }
+
+          swal('OK! The Meal has been edited!', {
+            icon: 'success',
           })
-        })
-    } else {
-      this.setState({ alert: 'Sorry, Cannot edit non-existent meal' })
-    }
+        } else {
+          swal('Edit operation aborted');
+        }
+      })
   }
 
   showAlert = () => {
