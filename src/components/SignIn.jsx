@@ -74,12 +74,12 @@ class SignIn extends Component {
           { displayAlert }
           <label htmlFor="username">
               Username:
-            <input type="text" name="username" onChange={this.handleChange} required />
+            <input className="form-control" type="text" name="username" onChange={this.handleChange} required />
           </label>
           <br />
           <label htmlFor="password">
               Password:
-            <input type="password" name="password" onChange={this.handleChange} required />
+            <input className="form-control" type="password" name="password" onChange={this.handleChange} required />
           </label>
           <br />
           <input className="btn btn-primary" type="submit" value="Sign In" />
