@@ -35,7 +35,6 @@ class Orders extends Component {
       .then(response => response.json())
       .catch(error => console.error('Error:', error))
       .then((response) => {
-        console.log(response);
         this.setState({ orders: response.orders })
         this.setState({ admin_orders: response.admin_orders })
         this.setState({ daily_summaries: response.daily_summaries })
