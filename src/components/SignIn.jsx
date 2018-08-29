@@ -21,7 +21,7 @@ class SignIn extends Component {
     const url = '/api/v2/signin'
     const { username, password } = this.state
     const data = { username: username, password: password }
-
+    this.setState({ submitted: true })
     fetch(url, {
       body: JSON.stringify(data),
       headers: {
@@ -40,7 +40,13 @@ class SignIn extends Component {
           // replace success message with swal
           console.log('Success', response.message)
           const { location } = this.props
-          const { from } = location.state || { from: { pathname: '/' } }
+          let from;
+          try {
+            from = location.state
+          } catch (error) {
+            from = { from: { pathname: '/' } }
+          }
+          // const { from } = location.state || { from: { pathname: '/' } }
           this.setState({ redirectTo: from.pathname })
         } else {
           this.setState({ alert: response.message })
@@ -86,7 +92,7 @@ class SignIn extends Component {
           <br />
           <p>
             { "Don't have an account? "}
-            <NavLink to="/signup" className="links">Sign Up</NavLink>
+            <a href="/signup" className="links">Sign Up</a>
           </p>
         </form>
       </div>

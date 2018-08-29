@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { Redirect, BrowserRouter as Route } from 'react-router-dom';
 
 
 class SignUp extends Component {
@@ -24,6 +24,7 @@ class SignUp extends Component {
     event.preventDefault();
     const { password, password1, username, email } = this.state
     if (password === password1 && password.length >= 8) {
+      this.setState({submitted: true })
       const url = '/api/v2/signup'
       const data = { username: username, email: email, password: password }
       fetch(url, {
@@ -41,7 +42,6 @@ class SignUp extends Component {
           if (response.access_token) {
             sessionStorage.setItem('access_token', `Bearer ${response.access_token}`);
             const msg = response.message
-            // this.setState({ alert: msg })
             console.log('Success: ', msg);
             console.log('Token: ', response.access_token);
             this.setState({ redirect: '/' })
@@ -68,7 +68,12 @@ class SignUp extends Component {
     }
 
     if (redirect) {
-      return (<Redirect to="/" />)
+      return (
+        <Route>
+          <Redirect to="/" />
+        </Route>
+        
+    )
     }
 
     return (
@@ -100,10 +105,10 @@ class SignUp extends Component {
           <br />
           <input className="btn btn-primary" type="submit" value="Sign Up" />
           <br />
-          <p>
+          <li>
             {'Already have an account?' }
-            <NavLink to="/signin" className="links">Sign In</NavLink>
-          </p>
+            <a href="/signin" className="links">Sign In</a>
+          </li>
         </form>
       </div>
     );
