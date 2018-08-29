@@ -1,14 +1,13 @@
-import React, { Component } from "react";
-import { Link , Redirect} from "react-router-dom";
+import React, { Component } from 'react';
+import { NavLink, Redirect } from 'react-router-dom';
 
-class SignIn extends Component{
-  constructor(props){
+class SignIn extends Component {
+  constructor(props) {
     super(props)
     this.state = {
       username: '',
       password: '',
-      redirectToReferrer: null,
-      alert: null
+      alert: null,
     }
   }
 
@@ -19,66 +18,82 @@ class SignIn extends Component{
 
   handleSubmit = (event) => {
     event.preventDefault();
-    var url = '/api/v2/signin'
-    var data = { 'username': this.state.username, 'password': this.state.password }
-    console.log(data)
+    const url = '/api/v2/signin'
+    const { username, password } = this.state
+    const data = { username: username, password: password }
+    this.setState({ submitted: true })
     fetch(url, {
       body: JSON.stringify(data),
       headers: {
         'content-type': 'application/json',
-        'Access-Control-Allow-Origin': "*",
+        'Access-Control-Allow-Origin': '*',
       },
       method: 'POST',
       mode: 'cors',
     })
-    .then((response)  => response.json())
-    .catch(error => console.error('Error: ', error))
-    .then(response => {
-      if(response.access_token){
-        sessionStorage.setItem('access_token', 'Bearer ' + response.access_token)
-        console.log('Success', response.message)
-        const { from } = this.props.location.state || { from: { pathname: '/' } }
-        this.setState({redirectTo: from.pathname})
-      }
-      else{
-        this.setState({alert: response.message})
-        console.log('Error:', response.message)
-      }
-    })
-    }
+      .then(response => response.json())
+      // if there is an error, change this to use swal
+      .catch(error => console.error('Error: ', error))
+      .then((response) => {
+        if (response.access_token) {
+          sessionStorage.setItem('access_token', `Bearer ${response.access_token}`)
+          // replace success message with swal
+          console.log('Success', response.message)
+          const { location } = this.props
+          let from;
+          try {
+            from = location.state
+          } catch (error) {
+            from = { from: { pathname: '/' } }
+          }
+          // const { from } = location.state || { from: { pathname: '/' } }
+          this.setState({ redirectTo: from.pathname })
+        } else {
+          this.setState({ alert: response.message })
+          console.log('Error:', response.message)
+        }
+      })
+  }
 
-  render(){
-    if (this.state.redirectTo){
-      window.location.replace(this.state.redirectTo)
-      return (<Redirect to={ this.state.redirectTo } />)
+  render() {
+    const { redirectTo } = this.state
+    if (redirectTo) {
+      window.location.replace(redirectTo)
+      return (<Redirect to={redirectTo} />)
     }
 
     let displayAlert = '';
-    if (this.state.alert) {
+    const { alert } = this.state
+    if (alert) {
       displayAlert = (
         <div className="error">
-          <p>{ this.state.alert }</p>
+          <p>{ alert }</p>
         </div>
       )
     }
-    return(
+    return (
       <div className="center">
 
         <form className="form-Group w3-display-middle center" onSubmit={this.handleSubmit}>
 
           <h3>Sign In</h3>
           { displayAlert }
-          <label>
-              Username: <input type="text" name="username" onChange={ this.handleChange } required />
+          <label htmlFor="username">
+              Username:
+            <input className="form-control" type="text" name="username" onChange={this.handleChange} required />
           </label>
-          <br/>
-          <label>
-              Password: <input type="password" name="password" onChange={ this.handleChange } required />
+          <br />
+          <label htmlFor="password">
+              Password:
+            <input className="form-control" type="password" name="password" onChange={this.handleChange} required />
           </label>
-          <br/>
+          <br />
           <input className="btn btn-primary" type="submit" value="Sign In" />
-          <br/>
-          <p>Don't have an account?<Link to="/signup" className="links">Sign Up</Link> </p>
+          <br />
+          <p>
+            { "Don't have an account? "}
+            <a href="/signup" className="links">Sign Up</a>
+          </p>
         </form>
       </div>
     );
