@@ -10,7 +10,7 @@ describe('These are navbar tests', () => {
     const hcd = 'Hot Corner Delicacies'
     expect(wrapper.find('nav').length).toBe(1);
     expect(wrapper.find('div').length).toBe(2);
-    expect(wrapper.find('ul').length).toBe(2);
+    expect(wrapper.find('ul').length).toBe(1);
     expect(wrapper.contains(hcd)).toEqual(true);
   });
 });
