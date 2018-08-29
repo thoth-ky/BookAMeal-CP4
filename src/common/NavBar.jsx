@@ -46,8 +46,6 @@ class NavBar extends Component {
   }
 
   render() {
-    console.log('props', this.props)
-
     return (
       <nav className="navbar navbar-inverse row navbar-fixed-top">
         <div className="container-fluid">

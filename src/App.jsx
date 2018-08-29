@@ -84,7 +84,6 @@ class App extends Component {
 
   render = () => {
     const { authenticated, admin, username } = this.state
-    console.log('app props', this.props)
     return (
       <Router>
         <div>
