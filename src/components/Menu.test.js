@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import sessionStorage from 'mock-local-storage';
 import fetchMock from 'fetch-mock';
 import Menu from './Menu';
@@ -18,7 +18,7 @@ describe ('Tests for Menu', () => {
             { meal_id: 2, name: 'tea', price: 150, description: 'Kericho gold', caterer: 'mutuku' },
           ] } })
 
-    const wrapper = shallow(<Menu />);
+    const wrapper = mount(<Menu />);
     wrapper.setState({
       meals: [
         { meal_id: 1, name: 'coffee', price: 100, description: 'Kenyan coffee', caterer: 'mutuku' },
@@ -32,6 +32,5 @@ describe ('Tests for Menu', () => {
     })
     const title = <h3>Menu for Date: { timeConverter(1535490000) }</h3>
     expect(wrapper.contains(title)).toEqual(true)
-
   })
 })
