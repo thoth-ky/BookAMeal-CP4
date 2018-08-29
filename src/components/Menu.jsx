@@ -215,7 +215,6 @@ class Menu extends Component {
       .then((response) => {
         this.setState({ alert: response.message });
       })
-
   }
 
   render = () => {
