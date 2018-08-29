@@ -20,7 +20,7 @@ describe('These are tests for Signin component', () => {
     wrapper.setState({ username: 'kyalo', password: 'password' })
     const form = wrapper.find('form')
     form.simulate('submit')
-    expect(wrapper.state().redirectTo).toEqual('/')
+    expect(wrapper.state().submitted).toEqual(true)
     fetchMock.restore()
   })
 })
