@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/jmutuku95/BookAMeal-CP4.svg?branch=develop)](https://travis-ci.org/jmutuku95/BookAMeal-CP4)
 This is a REACT App build using  `create-react-app` to consume `Book A Meal API`
 
 ## HOW TO INSTALL
