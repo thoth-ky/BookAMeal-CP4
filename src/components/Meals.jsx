@@ -58,29 +58,43 @@ class Meals extends Component {
     const access_token = sessionStorage.getItem('access_token')
     const { name, price, description } = this.state
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/meals'
-    const data = { name: name, price: price, description: description }
-    fetch(url, {
-      body: JSON.stringify(data),
-      headers: {
-        'content-type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: access_token,
-      },
-      method: 'POST',
-      mode: 'cors',
+    swal({
+      title: 'Are you sure you want to create a new meal?',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
     })
-      .then(response => response.json())
-      .catch(error => console.error('Error: ', error))
-      .then((response) => {
-        this.setState({
-          name: null,
-          meal_id: null,
-          description: null,
-          price: null,
-          alert: response.message,
-          show_modal: false,
-        })
+      .then((willDelete) => {
+        if (willDelete) {
+          const data = { name: name, price: price, description: description }
+          fetch(url, {
+            body: JSON.stringify(data),
+            headers: {
+              'content-type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              Authorization: access_token,
+            },
+            method: 'POST',
+            mode: 'cors',
+          })
+            .then(response => response.json())
+            .catch(error => console.error('Error: ', error))
+            .then((response) => {
+              this.setState({
+                name: null,
+                meal_id: null,
+                description: null,
+                price: null,
+                alert: response.message,
+                show_modal: false,
+              })
+            })
+        } else {
+          swal('Create meal operation aborted succesfully');
+          this.setState({ show_modal: false })
+        }
       })
+    this.getMeals()
   }
 
   addToMenu = (e) => {
@@ -90,21 +104,32 @@ class Meals extends Component {
     const access_token = sessionStorage.getItem('access_token')
     const data = { meal_list: [parseInt(meal_id, 10)] }
 
-    console.log(data)
-    fetch(url, {
-      body: JSON.stringify(data),
-      headers: {
-        'content-type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: access_token,
-      },
-      method: 'POST',
-      mode: 'cors',
+    swal({
+      title: `Are you sure you want to add meal #${meal_id} to Menu?`,
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
     })
-      .then(response => response.json())
-      .catch(error => console.error(error))
-      .then((response) => {
-        this.setState({ alert: response.message })
+      .then((willCreate) => {
+        if (willCreate) {
+          fetch(url, {
+            body: JSON.stringify(data),
+            headers: {
+              'content-type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              Authorization: access_token,
+            },
+            method: 'POST',
+            mode: 'cors',
+          })
+            .then(response => response.json())
+            .catch(error => console.error(error))
+            .then((response) => {
+              swal(response.message)
+            })
+        } else {
+          swal('Meal HAS NOT been added to menu!')
+        }
       })
   }
 
@@ -210,9 +235,11 @@ class Meals extends Component {
             icon: 'success',
           });
         } else {
-          swal('Delete operation aborted');
+          swal('Delete operation aborted')
+          this.setState({ show_modal: false })
         }
       })
+    this.getMeals()
   }
 
   editMeal = (event) => {
@@ -266,8 +293,10 @@ class Meals extends Component {
           })
         } else {
           swal('Edit operation aborted');
+          this.setState({ show_modal: false })
         }
       })
+    this.getMeals()
   }
 
   showAlert = () => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Alert, Well, Modal, Table } from 'react-bootstrap';
+import swal from 'sweetalert';
 import { timeConverter } from '../common/helpers';
 
 
@@ -82,11 +83,11 @@ class Menu extends Component {
     // check if meal_id already exist
     let updated = false
 
-    for (let i in current_orders) {
+    for (const i in current_orders) {
       if (current_orders.hasOwnProperty(i)) {
         const _order = current_orders[i]
         if (_order.meal_id === meal_id) {
-          let new_quantity = parseInt(_order.quantity, 10) + parseInt(quantity, 10)
+          const new_quantity = parseInt(_order.quantity, 10) + parseInt(quantity, 10)
           _order.quantity = new_quantity
           _order.sub = new_quantity * _order.price
           updated = true
@@ -100,7 +101,7 @@ class Menu extends Component {
     }
 
     const alert = `Meal #${meal_id} added to cart!`
-    this.setState({ cart: current_orders, alert: alert })
+    this.setState({ cart: current_orders, alert: alert, quantity: null })
   }
 
   removeFromCart = (e) => {
@@ -125,7 +126,10 @@ class Menu extends Component {
   Meal = (meal) => {
     const meal_item = meal.meal
     const { meal_id, name, description, price } = meal_item
-    const { quantity } = this.state
+    let { quantity } = this.state
+    if (quantity < 1) {
+      quantity = 1
+    }
     return (
       <Well className="row">
         <div className="col-md-1">{ meal_id }</div>
@@ -181,39 +185,48 @@ class Menu extends Component {
 
   handlePlaceOrder = () => {
     // give user option to abort here
-    alert('Confirm to Send Order')
     const access_token = sessionStorage.getItem('access_token')
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/orders'
     const { cart } = this.state;
     let order_list = [];
-
-    // loop through cart and create orders
-    for (let i in cart) {
-      if (cart.hasOwnProperty(i)) {
-        let meal_id = cart[i].meal_id
-        let quantity = cart[i].quantity
-        order_list = order_list.concat({ meal_id: meal_id, quantity: quantity })
-      }
-    }
-    // provide form to select due time
-    const due_time = '16-08-2019 15-00'
-    const data = { due_time: due_time, order: order_list }
-    // clear cart state and stop showing modal
-    this.setState({ show_cart: false, cart: [] })
-    fetch(url, {
-      headers: {
-        'content-type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: access_token,
-      },
-      body: JSON.stringify(data),
-      method: 'POST',
-      mode: 'cors',
+    swal({
+      title: `Are you sure you want to place this order?`,
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
     })
-      .then(response => response.json())
-      .catch(error => console.error('Error: ', error))
-      .then((response) => {
-        this.setState({ alert: response.message });
+      .then((willDelete) => {
+        if (willDelete) {
+          // loop through cart and create orders
+          for (const i in cart) {
+            if (cart.hasOwnProperty(i)) {
+              const { meal_id, quantity } = cart[i]
+              order_list = order_list.concat({ meal_id: meal_id, quantity: quantity })
+            }
+          }
+          // provide form to select due time
+          const due_time = '16-08-2019 15-00'
+          const data = { due_time: due_time, order: order_list }
+          // clear cart state and stop showing modal
+          this.setState({ show_cart: false, cart: [] })
+          fetch(url, {
+            headers: {
+              'content-type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              Authorization: access_token,
+            },
+            body: JSON.stringify(data),
+            method: 'POST',
+            mode: 'cors',
+          })
+            .then(response => response.json())
+            .catch(error => console.error('Error: ', error))
+            .then((response) => {
+              this.setState({ alert: response.message });
+            })
+        } else {
+          swal('Operation to place Order aborted')
+        }
       })
   }
 
