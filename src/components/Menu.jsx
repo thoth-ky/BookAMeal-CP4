@@ -23,7 +23,7 @@ class Menu extends Component {
   getMenu = () => {
     // fetches menu
     const access_token = sessionStorage.getItem('access_token')
-    const url = '/api/v2/menu'
+    const url = 'https://bookameal-staging.herokuapp.com/api/v2/menu'
 
     fetch(url, {
       headers: {
@@ -183,7 +183,7 @@ class Menu extends Component {
     // give user option to abort here
     alert('Confirm to Send Order')
     const access_token = sessionStorage.getItem('access_token')
-    const url = '/api/v2/orders'
+    const url = 'https://bookameal-staging.herokuapp.com/api/v2/orders'
     const { cart } = this.state;
     let order_list = [];
 
@@ -219,6 +219,13 @@ class Menu extends Component {
 
   render = () => {
     const { meals, cart } = this.state
+    if (meals.length === 0) {
+      return (
+        <Well>
+          <p>Hey, the menu for this day has not been set yet. Check later!</p>
+        </Well>
+      )
+    }
     const menu = meals
     const cartItems = () => {
       if (cart.length !== 0) {

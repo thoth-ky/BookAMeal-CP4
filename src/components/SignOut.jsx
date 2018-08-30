@@ -9,7 +9,7 @@ class SignOut extends Component {
 
   signOut = () => {
     const accesstoken = sessionStorage.getItem('access_token');
-    const url = '/api/v2/signout';
+    const url = 'https://bookameal-staging.herokuapp.com/api/v2/signout';
     fetch(url, {
       headers: {
         Authorization: accesstoken,

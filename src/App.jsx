@@ -23,11 +23,6 @@ const isAuthenticated = () => {
   try {
     const { exp } = decode(accessToken);
     const now = (new Date().getTime()) / 1000
-  
-    console.log('AppExp', exp)
-    console.log('AppNow', now)
-    console.log('AppComp', exp > now)
-
     if (exp > (now / 1000)) {
       return true
     }
@@ -66,13 +61,11 @@ class App extends Component {
     const token = sessionStorage.getItem('access_token')
     try {
       const { admin, username } = decode(token)
-      console.log(' NO error')
       this.setState({
         authenticated: true,
         admin: admin,
         username: username,
       })
-      console.log(this.state)
     } catch (error) {
       this.setState({
         authenticated: false,

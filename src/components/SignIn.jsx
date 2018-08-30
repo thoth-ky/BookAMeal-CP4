@@ -18,7 +18,7 @@ class SignIn extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const url = '/api/v2/signin'
+    const url = 'https://bookameal-staging.herokuapp.com/api/v2/signin'
     const { username, password } = this.state
     const data = { username: username, password: password }
     this.setState({ submitted: true })
@@ -42,12 +42,16 @@ class SignIn extends Component {
           const { location } = this.props
           let from;
           try {
-            from = location.state
+            from = location.state.from
+            if (!from.pathname) {
+              from = { pathname: '/menu' }
+            }
           } catch (error) {
-            from = { from: { pathname: '/' } }
+            from = { pathname: '/menu' }
           }
           // const { from } = location.state || { from: { pathname: '/' } }
           this.setState({ redirectTo: from.pathname })
+          console.log(this.state, from)
         } else {
           this.setState({ alert: response.message })
           console.log('Error:', response.message)

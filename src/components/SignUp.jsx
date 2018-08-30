@@ -24,8 +24,8 @@ class SignUp extends Component {
     event.preventDefault();
     const { password, password1, username, email } = this.state
     if (password === password1 && password.length >= 8) {
-      this.setState({submitted: true })
-      const url = '/api/v2/signup'
+      this.setState({ submitted: true })
+      const url = 'https://bookameal-staging.herokuapp.com/api/v2/signup'
       const data = { username: username, email: email, password: password }
       fetch(url, {
         body: JSON.stringify(data),

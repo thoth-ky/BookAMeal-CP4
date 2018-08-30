@@ -12,6 +12,7 @@ class Orders extends Component {
       show_modal: false,
       meals_on_disp: null,
       daily_summaries: null,
+      alert: null,
     }
   }
 
@@ -21,7 +22,7 @@ class Orders extends Component {
 
   getOrders() {
     const access_token = sessionStorage.getItem('access_token')
-    const url = '/api/v2/orders'
+    const url = 'https://bookameal-staging.herokuapp.com/api/v2/orders'
     // Do a fetch to get orders
     fetch(url, {
       headers: {
@@ -151,6 +152,13 @@ class Orders extends Component {
 
   render = () => {
     const { orders } = this.state
+    if (orders.length === 0) {
+      return (
+        <Well>
+          <p>Hey, you do not appear to have any orders yet!</p>
+        </Well>
+      )
+    }
     const orders_heading = (
       <div className="row">
         <div className="col-md-2"><h4><b>ID</b></h4></div>

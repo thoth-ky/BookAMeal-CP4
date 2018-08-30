@@ -27,8 +27,8 @@ class Meals extends Component {
 
   getMeals = () => {
     const access_token = sessionStorage.getItem('access_token')
-    const url = '/api/v2/meals'
-
+    const url = 'https://bookameal-staging.herokuapp.com/api/v2/meals'
+    
     fetch(url, {
       headers: {
         'content-type': 'application/json',
@@ -57,7 +57,7 @@ class Meals extends Component {
     event.preventDefault();
     const access_token = sessionStorage.getItem('access_token')
     const { name, price, description } = this.state
-    const url = '/api/v2/meals'
+    const url = 'https://bookameal-staging.herokuapp.com/api/v2/meals'
     const data = { name: name, price: price, description: description }
     fetch(url, {
       body: JSON.stringify(data),
@@ -86,7 +86,7 @@ class Meals extends Component {
   addToMenu = (e) => {
     e.preventDefault()
     const meal_id = e.currentTarget.dataset.id
-    const url = '/api/v2/menu'
+    const url = 'https://bookameal-staging.herokuapp.com/api/v2/menu'
     const access_token = sessionStorage.getItem('access_token')
     const data = { meal_list: [parseInt(meal_id, 10)] }
 
@@ -180,7 +180,7 @@ class Meals extends Component {
       .then((willDelete) => {
         if (willDelete) {
           if (meal_id) {
-            const url = `/api/v2/meals/${meal_id}`
+            const url = `https://bookameal-staging.herokuapp.com/api/v2/meals/${meal_id}`
             fetch(url, {
               headers: {
                 'content-type': 'application/json',
@@ -233,7 +233,7 @@ class Meals extends Component {
               name: name,
               description: description,
               price: price }
-            const url = `/api/v2/meals/ ${meal_id}`
+            const url = `https://bookameal-staging.herokuapp.com/api/v2/meals/ ${meal_id}`
             console.log(url);
             fetch(url, {
               body: JSON.stringify({ new_data: data }),
