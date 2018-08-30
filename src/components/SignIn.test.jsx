@@ -15,7 +15,7 @@ describe('These are tests for Signin component', () => {
   })
 
   it('can login', () => {
-    fetchMock.post('/api/v2/signin', { access_token: 'valid access token', message: 'User successfully logged in.' });
+    fetchMock.post('https://bookameal-staging.herokuapp.com/api/v2/signin', { access_token: 'valid access token', message: 'User successfully logged in.' });
     const wrapper = mount(<SignIn />);
     wrapper.setState({ username: 'kyalo', password: 'password' })
     const form = wrapper.find('form')

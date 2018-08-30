@@ -46,7 +46,7 @@ describe('These are tests for signup component', () => {
   })
 
   it('test submit works', () => {
-    fetchMock.post('/api/v2/signup', { access_token: 'valid access token', message: 'User registration succesful, and logged in.' });
+    fetchMock.post('https://bookameal-staging.herokuapp.com/api/v2/signup', { access_token: 'valid access token', message: 'User registration succesful, and logged in.' });
     const wrapper = mount(<SignUp />);
     wrapper.setState(
       {

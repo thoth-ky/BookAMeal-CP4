@@ -12,7 +12,6 @@ class Orders extends Component {
       show_modal: false,
       meals_on_disp: null,
       daily_summaries: null,
-      alert: null,
     }
   }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, BrowserRouter as Router } from 'react-router-dom';
 
 class SignIn extends Component {
   constructor(props) {
@@ -63,7 +63,10 @@ class SignIn extends Component {
     const { redirectTo } = this.state
     if (redirectTo) {
       window.location.replace(redirectTo)
-      return (<Redirect to={redirectTo} />)
+      return (
+        <Router>
+          <Redirect to={redirectTo} />
+        </Router>)
     }
 
     let displayAlert = '';
