@@ -8,7 +8,7 @@ import { timeConverter } from '../common/helpers';
 
 describe ('Tests for Menu', () => {
   it ('displays all required info', () => {
-    fetchMock.get('/api/v2/menu',
+    fetchMock.get('https://bookameal-staging.herokuapp.com/api/v2/menu',
       {
         message: 'Menu request succesful',
         menu: {

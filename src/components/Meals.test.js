@@ -6,7 +6,7 @@ import Meals from './Meals';
 
 describe ('Tests for Meals', () => {
   it ('renders without crashing', () => {
-    fetchMock.get('/api/v2/meals',
+    fetchMock.get('https://bookameal-staging.herokuapp.com/api/v2/meals',
       { message: 'Succesful request',
         meals: [
           { meal_id: 1, name: 'githeri', price: 50, description: 'Traditional', caterer: 'mutuku' },
@@ -24,7 +24,7 @@ describe ('Tests for Meals', () => {
   })
 
   it ('It can render multiple meals', () => {
-    fetchMock.get('/api/v2/meals',
+    fetchMock.get('https://bookameal-staging.herokuapp.com/api/v2/meals',
       { message: 'Succesful request',
         meals: [
           { meal_id: 1, name: 'githeri', price: 50, description: 'Traditional', caterer: 'mutuku' },
