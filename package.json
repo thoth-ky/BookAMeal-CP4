@@ -5,6 +5,7 @@
   "dependencies": {
     "jwt-decode": "^2.2.0",
     "nanomatch": "^1.2.13",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.3",
     "react-dom": "^16.4.1",

@@ -1,17 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 
 class NavBar extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isAuthenticated: this.props.isAuthenticated,
-      isAdmin: this.props.isAdmin,
-      username: this.props.username,
-    }
-  }
-
   rightNav = () => {
     const { isAuthenticated, username } = this.props
     if (isAuthenticated) {
@@ -64,5 +56,9 @@ class NavBar extends Component {
     );
   }
 }
-
+NavBar.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  username: PropTypes.string.isRequired,
+};
 export default NavBar;

@@ -97,7 +97,6 @@ class Menu extends Component {
 
     if (!updated) {
       current_orders = current_orders.concat(order)
-      console.log(current_orders);
     }
 
     const alert = `Meal #${meal_id} added to cart!`
@@ -111,9 +110,9 @@ class Menu extends Component {
     const { cart } = this.state
     const current_orders = cart;
 
-    for (let i in current_orders) {
+    for (const i in current_orders) {
       if (current_orders.hasOwnProperty(i)) {
-        let order = current_orders[i]
+        const order = current_orders[i]
         if (order.meal_id === meal_id) {
           current_orders.splice(i, 1)
         }
@@ -149,7 +148,7 @@ class Menu extends Component {
   displayMenu = (menu) => {
     // displays all meals
     let menu_meals = []
-    for (let i in menu.menu) {
+    for (const i in menu.menu) {
       if (menu.menu.hasOwnProperty(i)) {
         menu_meals = menu_meals.concat(menu.menu[i])
       }
@@ -190,7 +189,7 @@ class Menu extends Component {
     const { cart } = this.state;
     let order_list = [];
     swal({
-      title: `Are you sure you want to place this order?`,
+      title: 'Are you sure you want to place this order?',
       icon: 'warning',
       buttons: true,
       dangerMode: true,

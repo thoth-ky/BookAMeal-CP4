@@ -4,18 +4,6 @@ import fetchMock from 'fetch-mock';
 import sessionStorage from 'mock-local-storage';
 import SignUp from './SignUp';
 
-function resolveAfter10Seconds(x) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(x);
-    }, 10000);
-  });
-}
-
-async function f1() {
-  const x = await resolveAfter10Seconds(10);
-  console.log(x); // 10
-}
 
 describe('These are tests for signup component', () => {
   it('test signup has all html tags', () => {
@@ -40,7 +28,6 @@ describe('These are tests for signup component', () => {
       password1: 'kyalo12345',
     })
     const form = wrapper.find('form');
-    
     form.simulate('submit')
     expect(wrapper.state('alert')).toEqual('Ensure passwords match and use more than 8 characters');
   })
@@ -56,7 +43,6 @@ describe('These are tests for signup component', () => {
     const form = wrapper.find('form')
     expect(wrapper.state().submitted).toEqual(null)
     form.simulate('submit')
-    
     expect(wrapper.state().submitted).toEqual(true)
 
     fetchMock.restore()

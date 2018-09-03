@@ -42,7 +42,8 @@ class Orders extends Component {
   }
 
   mealNode = () => {
-    const meals = this.state.meals_on_disp;
+    const { meals_on_disp } = this.state
+    const meals = meals_on_disp
     if (meals) {
       const meal_node = meals.map(meal => (
         <this.Meal meal={meal} />))
@@ -134,7 +135,6 @@ class Orders extends Component {
   Summary = (date) => {
     const { daily_summaries } = this.state
     const date_summary = daily_summaries[date.date]
-    console.log(date_summary)
     let total = 0;
     for (const i in date_summary) {
       if (date_summary.hasOwnProperty(i)) {

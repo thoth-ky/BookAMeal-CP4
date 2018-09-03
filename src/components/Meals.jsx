@@ -28,7 +28,7 @@ class Meals extends Component {
   getMeals = () => {
     const access_token = sessionStorage.getItem('access_token')
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/meals'
-    
+
     fetch(url, {
       headers: {
         'content-type': 'application/json',
@@ -102,7 +102,6 @@ class Meals extends Component {
     const meal_id = e.currentTarget.dataset.id
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/menu'
     const access_token = sessionStorage.getItem('access_token')
-    const data = { meal_list: [parseInt(meal_id, 10)] }
 
     swal({
       title: `Are you sure you want to add meal #${meal_id} to Menu?`,
@@ -112,21 +111,39 @@ class Meals extends Component {
     })
       .then((willCreate) => {
         if (willCreate) {
-          fetch(url, {
-            body: JSON.stringify(data),
-            headers: {
-              'content-type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              Authorization: access_token,
+          swal({
+            text: 'Enter date(DD-MM-YYY):',
+            content: 'input',
+            button: {
+              text: 'Send!',
+              closeModal: false,
             },
-            method: 'POST',
-            mode: 'cors',
+          }).then((date) => {
+            if (date) {
+              const data = { meal_list: [parseInt(meal_id, 10)], date: date }
+              fetch(url, {
+                body: JSON.stringify(data),
+                headers: {
+                  'content-type': 'application/json',
+                  'Access-Control-Allow-Origin': '*',
+                  Authorization: access_token,
+                },
+                method: 'POST',
+                mode: 'cors',
+              })
+                .then(response => response.json())
+                .catch(error => console.error(error))
+                .then((response) => {
+                  if (response.message) {
+                    swal(response.message)
+                  } else {
+                    swal(`Error: ${response.error}`)
+                  }
+                })
+            } else {
+              swal('Meal HAS NOT been added to menu!')
+            }
           })
-            .then(response => response.json())
-            .catch(error => console.error(error))
-            .then((response) => {
-              swal(response.message)
-            })
         } else {
           swal('Meal HAS NOT been added to menu!')
         }
@@ -188,7 +205,7 @@ class Meals extends Component {
     );
   }
 
-  handleCloseModal = (e) => {
+  handleCloseModal = () => {
     this.setState({ show_modal: false })
   }
 
@@ -226,7 +243,6 @@ class Meals extends Component {
                   show_modal: false,
                   alert: response.message,
                 })
-                console.log(response.message)
               })
           } else {
             this.setState({ alert: 'Sorry, Cannot delete non-existent meal' })
@@ -261,7 +277,6 @@ class Meals extends Component {
               description: description,
               price: price }
             const url = `https://bookameal-staging.herokuapp.com/api/v2/meals/ ${meal_id}`
-            console.log(url);
             fetch(url, {
               body: JSON.stringify({ new_data: data }),
               headers: {
@@ -309,7 +324,7 @@ class Meals extends Component {
     return null
   }
 
-  dismissAlert = (e) => {
+  dismissAlert = () => {
     this.setState({ alert: null })
   }
 
@@ -355,7 +370,6 @@ class Meals extends Component {
             <Modal.Title><span>MEAL DETAILS </span></Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <this.showAlert />
             <form className="form-group">
               <div className="form-group">
                 <label htmlFor="name">Name</label>

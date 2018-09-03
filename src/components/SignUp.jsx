@@ -72,8 +72,7 @@ class SignUp extends Component {
         <Route>
           <Redirect to="/" />
         </Route>
-        
-    )
+      )
     }
 
     return (
