@@ -68,6 +68,7 @@ class SignUp extends Component {
     }
 
     if (redirect) {
+      window.location.replace('/')
       return (
         <Route>
           <Redirect to="/" />

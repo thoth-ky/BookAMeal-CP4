@@ -3,12 +3,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink,
   Redirect } from 'react-router-dom';
 import { Well } from 'react-bootstrap';
 import decode from 'jwt-decode';
 
 import NavBar from './common/NavBar';
+import NotFound from './common/NotFound';
 import Home from './components/Home';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
@@ -19,7 +19,7 @@ import Orders from './components/Orders';
 
 
 const isAuthenticated = () => {
-  let accessToken = sessionStorage.getItem('access_token')
+  const accessToken = sessionStorage.getItem('access_token')
   try {
     const { exp } = decode(accessToken);
     const now = (new Date().getTime()) / 1000
@@ -85,7 +85,6 @@ class App extends Component {
               <NavBar isAuthenticated={authenticated} isAdmin={admin} username={username} />
             </header>
           </Well>
-          
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/signup" component={SignUp} />
@@ -94,13 +93,8 @@ class App extends Component {
             <PrivateRoute path="/menu" component={Menu} />
             <PrivateRoute path="/meals" component={Meals} />
             <PrivateRoute path="/orders" component={Orders} />
+            <Route component={NotFound} />
           </Switch>
-
-          <Well className="footer w3-teal">
-            <NavLink className="links" to="/about"> About </NavLink>
-            <NavLink className="links" to="/privacy"> Privacy </NavLink>
-            <NavLink className="links" to="/contacts"> Contact Us </NavLink>
-          </Well>
         </div>
       </Router>
     )

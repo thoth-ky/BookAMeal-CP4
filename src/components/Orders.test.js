@@ -53,7 +53,7 @@ describe('Tests for Orders', () => {
           total: 350 },
       ] })
     const title = <h2>Orders Information</h2>
-    expect(wrapper.find('div').length).toBe(32);
+    expect(wrapper.find('div').length).toBe(28);
     expect(wrapper.contains(title)).toBe(true)
   })
 })

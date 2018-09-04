@@ -10,6 +10,5 @@ it('renders without crashing', () => {
 
 it('renders all components', () => {
   const wrapper = mount(<App />);
-  expect(wrapper.find('div').length).toBe(10)
+  expect(wrapper.find('div').length).toBe(9)
 });
-

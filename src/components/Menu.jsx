@@ -270,10 +270,6 @@ class Menu extends Component {
               </thead>
               <tbody>
                 { orderNode }
-                <tr>
-                  <td colSpan="4">Total</td>
-                  <td>Total</td>
-                </tr>
               </tbody>
             </Table>
             <Button bsStyle="primary" onClick={this.handlePlaceOrder}>Place Order</Button>

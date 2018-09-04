@@ -106,17 +106,31 @@ class Orders extends Component {
   }
 
   displayOrders = (orders) => {
+    const orders_heading = (
+      <div className="row">
+        <div className="col-md-2"><h4><b>ID</b></h4></div>
+        <div className="col-md-2"><h4><b>Time Ordered</b></h4></div>
+        <div className="col-md-2"><h4><b>Due Time</b></h4></div>
+        <div className="col-md-2"><h4><b>Owner</b></h4></div>
+        <div className="col-md-2"><h4><b>Total Cost</b></h4></div>
+      </div>
+    )
     try {
       const order_list = orders.orders
       const orderNode = order_list.map(order => (
         <this.Order order={order} />))
       return (
         <div>
+          { orders_heading }
           { orderNode }
         </div>
       )
     } catch (e) {
-      return null
+      return (
+        <div className="center">
+          <h3>No orders to show here.</h3>
+        </div>
+      )
     }
   }
 
@@ -129,7 +143,11 @@ class Orders extends Component {
         <this.Summary date={date} />))
       return dateNOde
     }
-    return null
+    return (
+      <div className="center">
+        <h3>No summary to show, or not an admin.</h3>
+      </div>
+    )
   }
 
   Summary = (date) => {
@@ -158,15 +176,6 @@ class Orders extends Component {
         </Well>
       )
     }
-    const orders_heading = (
-      <div className="row">
-        <div className="col-md-2"><h4><b>ID</b></h4></div>
-        <div className="col-md-2"><h4><b>Time Ordered</b></h4></div>
-        <div className="col-md-2"><h4><b>Due Time</b></h4></div>
-        <div className="col-md-2"><h4><b>Owner</b></h4></div>
-        <div className="col-md-2"><h4><b>Total Cost</b></h4></div>
-      </div>
-    )
     const { admin_orders, show_modal } = this.state
     return (
       <div>
@@ -174,13 +183,11 @@ class Orders extends Component {
         <Tabs defaultActiveKey={1}>
           <Tab eventKey={1} title="My Orders">
             <Well>
-              { orders_heading }
               <this.displayOrders orders={orders} />
             </Well>
           </Tab>
 
           <Tab eventKey={2} title="Admin Orders">
-            { orders_heading}
             <this.displayOrders orders={admin_orders} />
           </Tab>
           <Tab eventKey={3} title="Daily Summaries">

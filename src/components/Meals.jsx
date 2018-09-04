@@ -48,7 +48,6 @@ class Meals extends Component {
       .then((response) => {
         this.setState({
           meals: response.meals,
-          alert: response.message,
         })
       })
   }
@@ -112,7 +111,7 @@ class Meals extends Component {
       .then((willCreate) => {
         if (willCreate) {
           swal({
-            text: 'Enter date(DD-MM-YYY):',
+            text: 'Enter date(DD-MM-YYYY):',
             content: 'input',
             button: {
               text: 'Send!',
