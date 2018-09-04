@@ -6,8 +6,7 @@ const timeConverter = (UNIX_timestamp) => {
   const date = a.getDate();
   const hour = a.getHours();
   const min = a.getMinutes();
-  const sec = a.getSeconds();
-  const time = `${date}  ${month} ${year} ${hour}:${min}${sec}`
+  const time = `${date}  ${month} ${year} ${hour}:${min}`
   return time;
 }
 
