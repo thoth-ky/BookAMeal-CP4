@@ -8,6 +8,7 @@ class SignOut extends Component {
   }
 
   signOut = () => {
+    // send signout request to api to revoke token
     const accesstoken = sessionStorage.getItem('access_token');
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/signout';
     fetch(url, {
@@ -22,14 +23,14 @@ class SignOut extends Component {
       .then(response => response.json())
       .catch(error => console.error('Error: ', error))
       .then((response) => {
-        console.log('Success:', response.message)
+        // remove token from session storage
         sessionStorage.removeItem('access_token')
-        window.location.replace('/signin')
+        window.location.replace('/')
       })
   }
 
   render = () => (
-    <Redirect to="/signin" />
+    <Redirect to="/" />
   )
 }
 

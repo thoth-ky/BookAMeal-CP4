@@ -6,7 +6,7 @@ import Orders from './Orders';
 
 
 describe('Tests for Orders', () => {
-  it('renders without crashing', () => {
+  it('renders correctly', () => {
     fetchMock.get('https://bookameal-staging.herokuapp.com/api/v2/orders',
       { message: 'All Orders',
         orders: [

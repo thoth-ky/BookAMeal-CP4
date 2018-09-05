@@ -12,11 +12,13 @@ class SignIn extends Component {
   }
 
   handleChange = (event) => {
+    // updates state as user input chages
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value })
   }
 
   handleSubmit = (event) => {
+    // send signin request to api
     event.preventDefault();
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/signin'
     const { username, password } = this.state
@@ -32,13 +34,11 @@ class SignIn extends Component {
       mode: 'cors',
     })
       .then(response => response.json())
-      // if there is an error, change this to use swal
       .catch(error => console.error('Error: ', error))
       .then((response) => {
         if (response.access_token) {
+          // set access token in sessionStorage
           sessionStorage.setItem('access_token', `Bearer ${response.access_token}`)
-          // replace success message with swal
-          console.log('Success', response.message)
           const { location } = this.props
           let from;
           try {
@@ -53,13 +53,14 @@ class SignIn extends Component {
           this.setState({ redirectTo: from.pathname })
           console.log(this.state, from)
         } else {
+          // if there is an error display error alert
           this.setState({ alert: response.message })
-          console.log('Error:', response.message)
         }
       })
   }
 
   render() {
+    // check if redirecturl exists and redirect appropriately
     const { redirectTo } = this.state
     if (redirectTo) {
       window.location.replace(redirectTo)
@@ -69,6 +70,7 @@ class SignIn extends Component {
         </Router>)
     }
 
+    // check if alert exist and display it
     let displayAlert = '';
     const { alert } = this.state
     if (alert) {

@@ -20,6 +20,7 @@ class Orders extends Component {
   }
 
   getOrders() {
+    // gets all orders from api
     const access_token = sessionStorage.getItem('access_token')
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/orders'
     // Do a fetch to get orders
@@ -42,6 +43,7 @@ class Orders extends Component {
   }
 
   mealNode = () => {
+    // display meals in order
     const { meals_on_disp } = this.state
     const meals = meals_on_disp
     if (meals) {
@@ -53,6 +55,7 @@ class Orders extends Component {
   }
 
   Meal = (meal) => {
+    // render mealitem in order into panel
     const meal_item = meal.meal
     return (
       <Panel>
@@ -65,6 +68,7 @@ class Orders extends Component {
   }
 
   Order = (order) => {
+    // render an order item in a well component
     const order_item = order.order;
 
     const id = order_item.order_id;
@@ -83,6 +87,7 @@ class Orders extends Component {
   }
 
   showDetail = (e) => {
+    // show modal for all meals in the order
     e.preventDefault()
     const order_id = parseInt(e.currentTarget.dataset.id, 10);
     const { orders } = this.state
@@ -98,14 +103,17 @@ class Orders extends Component {
   }
 
   showModal = () => {
+    // show modal for displaying meals in an order
     this.setState({ show_modal: true })
   }
 
   handleCloseModal = () => {
+    // close modal
     this.setState({ show_modal: false })
   }
 
   displayOrders = (orders) => {
+    // render a list of orders
     const orders_heading = (
       <div className="row">
         <div className="col-md-2"><h4><b>ID</b></h4></div>
@@ -126,6 +134,7 @@ class Orders extends Component {
         </div>
       )
     } catch (e) {
+      // if no orders
       return (
         <div className="center">
           <h3>No orders to show here.</h3>
@@ -135,6 +144,7 @@ class Orders extends Component {
   }
 
   displayDailySummaries = () => {
+    // display daily summaries showing amoutn made in a day
     const { daily_summaries } = this.state
     if (daily_summaries) {
       const dates = Object.keys(daily_summaries)
@@ -151,6 +161,7 @@ class Orders extends Component {
   }
 
   Summary = (date) => {
+    // render daily summary for a particular date
     const { daily_summaries } = this.state
     const date_summary = daily_summaries[date.date]
     let total = 0;
@@ -187,7 +198,7 @@ class Orders extends Component {
             </Well>
           </Tab>
 
-          <Tab eventKey={2} title="Admin Orders">
+          <Tab eventKey={2} title="All Orders">
             <this.displayOrders orders={admin_orders} />
           </Tab>
           <Tab eventKey={3} title="Daily Summaries">

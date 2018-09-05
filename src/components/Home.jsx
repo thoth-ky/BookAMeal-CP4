@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Well } from 'react-bootstrap';
 
-
+// Home page component
 const Home = () => (
   <div>
     <div className="center">

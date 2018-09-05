@@ -22,7 +22,7 @@ class Menu extends Component {
   }
 
   getMenu = () => {
-    // fetches menu
+    // fetches menu from api
     const access_token = sessionStorage.getItem('access_token')
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/menu'
 
@@ -45,6 +45,7 @@ class Menu extends Component {
 
 
   handleChange = (event) => {
+    // update the state as change occurs in input form
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
   }
@@ -80,7 +81,7 @@ class Menu extends Component {
     }
     const { cart } = this.state
     let current_orders = cart
-    // check if meal_id already exist
+    // check if meal_id already exist, if it exists alter quantity
     let updated = false
 
     for (const i in current_orders) {
@@ -94,7 +95,7 @@ class Menu extends Component {
         }
       }
     }
-
+    // if meal does not exist then add meal to cart
     if (!updated) {
       current_orders = current_orders.concat(order)
     }
@@ -104,6 +105,7 @@ class Menu extends Component {
   }
 
   removeFromCart = (e) => {
+    // remove meal from cart
     e.preventDefault()
 
     const meal_id = e.currentTarget.dataset.id;
@@ -123,6 +125,7 @@ class Menu extends Component {
   }
 
   Meal = (meal) => {
+    // Render meal item in a well component
     const meal_item = meal.meal
     const { meal_id, name, description, price } = meal_item
     let { quantity } = this.state
@@ -204,8 +207,17 @@ class Menu extends Component {
             }
           }
           // provide form to select due time
-          const due_time = '16-08-2019 15-00'
+          const today = new Date()
+          const dd = today.getDate()
+          // january is 0
+          const MM = today.getMonth() + 1
+          const yyyy = today.getFullYear()
+          // add one hour
+          const hh = today.getHours() + 1
+          const mm = today.getMinutes()
+          const due_time = `${dd}-${MM}-${yyyy} ${hh}-${mm}`
           const data = { due_time: due_time, order: order_list }
+          console.log(JSON.stringify(data))
           // clear cart state and stop showing modal
           this.setState({ show_cart: false, cart: [] })
           fetch(url, {
@@ -231,6 +243,7 @@ class Menu extends Component {
 
   render = () => {
     const { meals, cart } = this.state
+    // check if meals contains sth
     if (meals.length === 0) {
       return (
         <Well>
@@ -239,8 +252,10 @@ class Menu extends Component {
       )
     }
     const menu = meals
+    // if cart has items, display them
     const cartItems = () => {
       if (cart.length !== 0) {
+        // render eact order item in cart in a row
         const Row = order => (
           <tr>
             <td>{ order.order.meal_id }</td>

@@ -16,13 +16,16 @@ class SignUp extends Component {
   }
 
   handleChange = (event) => {
+    // update state as user input changes in form
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value })
   }
 
   handleSubmit = (event) => {
+    // send registration request to api
     event.preventDefault();
     const { password, password1, username, email } = this.state
+    // check if passwords match and are sufficient in length
     if (password === password1 && password.length >= 8) {
       this.setState({ submitted: true })
       const url = 'https://bookameal-staging.herokuapp.com/api/v2/signup'
@@ -41,21 +44,21 @@ class SignUp extends Component {
         .then((response) => {
           if (response.access_token) {
             sessionStorage.setItem('access_token', `Bearer ${response.access_token}`);
-            const msg = response.message
-            console.log('Success: ', msg);
-            console.log('Token: ', response.access_token);
             this.setState({ redirect: '/' })
           }
+          // set response message as alert
           const msg = response.message
           this.setState({ alert: msg })
         })
     } else {
+      // if passwords don't match of < 8 characters
       const msg = 'Ensure passwords match and use more than 8 characters'
       this.setState({ alert: msg })
     }
   }
 
   render() {
+    // check if there is an alert or redirect url in state and diplay or redirect
     let displayAlert = '';
     const { alert, redirect } = this.state
 

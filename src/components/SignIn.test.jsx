@@ -5,7 +5,7 @@ import sessionStorage from 'mock-local-storage';
 import SignIn from './SignIn';
 
 describe('These are tests for Signin component', () => {
-  it('test that signin works', () => {
+  it('test that signin renders correctly', () => {
     const wrapper = shallow(<SignIn />);
     const title = <h3>Sign In</h3>
     expect(wrapper.find('div').length).toBe(1);
