@@ -63,8 +63,8 @@ class Meals extends Component {
       buttons: true,
       dangerMode: true,
     })
-      .then((willDelete) => {
-        if (willDelete) {
+      .then((willCreate) => {
+        if (willCreate) {
           const data = { name: name, price: price, description: description }
           fetch(url, {
             body: JSON.stringify(data),
@@ -88,12 +88,12 @@ class Meals extends Component {
                 show_modal: false,
               })
             })
+            .then(response => this.getMeals())
         } else {
           swal('Create meal operation aborted succesfully');
           this.setState({ show_modal: false })
         }
       })
-    this.getMeals()
   }
 
   addToMenu = (e) => {
@@ -165,6 +165,7 @@ class Meals extends Component {
   }
 
   Meal = (meal) => {
+    // create a panel for meal passed
     const meal_item = meal.meal
     const { meal_id, name, description, price } = meal_item
     return (
@@ -192,10 +193,10 @@ class Meals extends Component {
   }
 
   displaymeals = () => {
+    // display meals using the Meal function
     const { meals } = this.state
     const mealNode = meals.map(meal => (
       <this.Meal meal={meal} />))
-
     return (
       <Well>
         { this.showAlert() }
@@ -205,10 +206,12 @@ class Meals extends Component {
   }
 
   handleCloseModal = () => {
+    // close the detail/create view modal
     this.setState({ show_modal: false })
   }
 
   deleteMeal = (event) => {
+    // function to delete a meal, only deletes meals that are not attached to any orders yet
     event.preventDefault()
     const access_token = sessionStorage.getItem('access_token')
     const { meal_id } = this.state
@@ -219,6 +222,7 @@ class Meals extends Component {
       dangerMode: true,
     })
       .then((willDelete) => {
+        // check if user confirmed to delete
         if (willDelete) {
           if (meal_id) {
             const url = `https://bookameal-staging.herokuapp.com/api/v2/meals/${meal_id}`
@@ -243,21 +247,23 @@ class Meals extends Component {
                   alert: response.message,
                 })
               })
+              .then(response => this.getMeals())
           } else {
+            // if meal_id has not been provided
             this.setState({ alert: 'Sorry, Cannot delete non-existent meal' })
           }
           swal('Poof! The Meal has been deleted', {
             icon: 'success',
           });
         } else {
-          swal('Delete operation aborted')
+          swal('Meal had not been deleted')
           this.setState({ show_modal: false })
         }
       })
-    this.getMeals()
   }
 
   editMeal = (event) => {
+    // function to edit a meal
     event.preventDefault()
     const access_token = sessionStorage.getItem('access_token')
     const { meal_id, name, description, price } = this.state
@@ -298,6 +304,7 @@ class Meals extends Component {
                   alert: response.message,
                 })
               })
+              .then(response => this.getMeals())
           } else {
             this.setState({ alert: 'Sorry, Cannot edit non-existent meal' })
           }
@@ -306,14 +313,15 @@ class Meals extends Component {
             icon: 'success',
           })
         } else {
-          swal('Edit operation aborted');
+          // if user cancels edit operation
+          swal('Meal has not been edited');
           this.setState({ show_modal: false })
         }
       })
-    this.getMeals()
   }
 
   showAlert = () => {
+    // render alert in state if it exists
     const { alert } = this.state
     if (alert) {
       return (
@@ -324,6 +332,7 @@ class Meals extends Component {
   }
 
   dismissAlert = () => {
+    // stop displaying any alerts in state
     this.setState({ alert: null })
   }
 
@@ -339,6 +348,7 @@ class Meals extends Component {
     let buttons = '';
 
     if (meal_id) {
+      // buttons for modal detail view
       buttons = (
         <ButtonGroup>
           <Button onClick={this.editMeal} bsStyle="primary">EDIT</Button>
@@ -347,6 +357,7 @@ class Meals extends Component {
 
       )
     } else {
+      // buttons for modal create view
       buttons = (
         <Button onClick={this.createMeal} bsStyle="primary">CREATE</Button>
       )
@@ -358,7 +369,6 @@ class Meals extends Component {
           <h2 className="w3-conatiner w3-cell">Meals</h2>
           <ButtonGroup>
             <Button className="w3-container w3-cell" bsStyle="primary" onClick={this.showDetail} bsSize="lg">CREATE A NEW MEAL</Button>
-            <Button className="w3-container w3-cell" bsStyle="primary" onClick={this.getMeals} bsSize="lg">REFRESH</Button>
           </ButtonGroup>
         </div>
         <div>

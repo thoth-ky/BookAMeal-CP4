@@ -4,8 +4,8 @@ import fetchMock from 'fetch-mock';
 import sessionStorage from 'mock-local-storage';
 import Meals from './Meals';
 
-describe ('Tests for Meals', () => {
-  it ('renders without crashing', () => {
+describe('Tests for Meals', () => {
+  it('renders meal component correctly', () => {
     fetchMock.get('https://bookameal-staging.herokuapp.com/api/v2/meals',
       { message: 'Succesful request',
         meals: [
@@ -14,16 +14,16 @@ describe ('Tests for Meals', () => {
     const wrapper = mount(<Meals />);
     const title = <h2 className="w3-conatiner w3-cell">Meals</h2>
 
-    expect(wrapper.find('div').length).toBe(5);
+    expect(wrapper.find('div').length).toBe(5)
+    // title should be present
     expect(wrapper.contains(title)).toBe(true)
     const buttons = wrapper.find('button')
-    // should find 2 buttons, for create and refresh
-    expect(buttons.length).toBe(2)
-
+    // should find 2 buttons, for create
+    expect(buttons.length).toBe(1)
     fetchMock.restore()
   })
 
-  it ('It can render multiple meals', () => {
+  it('It can render multiple meals', () => {
     fetchMock.get('https://bookameal-staging.herokuapp.com/api/v2/meals',
       { message: 'Succesful request',
         meals: [
@@ -45,12 +45,10 @@ describe ('Tests for Meals', () => {
       },
     )
     // div count should be higher
-
     expect(wrapper.find('div').length).toBe(21);
-
     // find button
     const buttons = wrapper.find('button')
     // should find 6 buttons, 4 for each meal panel and 2 for create and refresh
-    expect(buttons.length).toBe(6)
+    expect(buttons.length).toBe(5)
   })
 })
