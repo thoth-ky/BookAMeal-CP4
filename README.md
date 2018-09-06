@@ -1,14 +1,18 @@
+# BOOK A MEAL REACT APP
 [![Build Status](https://travis-ci.org/jmutuku95/BookAMeal-CP4.svg?branch=develop)](https://travis-ci.org/jmutuku95/BookAMeal-CP4) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f03890a4ca3147eb9e782d3a2cc8663b)](https://www.codacy.com/app/jmutuku95/BookAMeal-CP4?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jmutuku95/BookAMeal-CP4&amp;utm_campaign=Badge_Grade) [![Coverage Status](https://coveralls.io/repos/github/jmutuku95/BookAMeal-CP4/badge.svg?branch=develop)](https://coveralls.io/github/jmutuku95/BookAMeal-CP4?branch=develop)
 
 ## INTRODUCTION
+
 This is a REACT App build using  `create-react-app` to consume [Book A Meal API](https://bookameal0.herokuapp.com/). A live version of this React App is hosted in Heroku [Book A Meal Front End](https://sheltered-wave-36604.herokuapp.com/). The App is intended to help a restaurant track it's customer's orders and allow customers make orders easily as well as allow caterers add their meals to menus.
 The customers are supposed to create accounts which they can use later to view menus or place orders for meals. The Restaurant staff/caterers use priviledged user authorised by a `super user`
 accounts which allow them to modify, delete some resources. The restaurant should at least have one super user created who will promote users to admin status.
+
 
 ## PREREQUISITES
 This application is build using the following technologies
 1. Node.Js
 2. ReactJs
+
 
 ## HOW TO INSTALL
 1. Ensure you have ```Node.js``` and npm installed
@@ -24,10 +28,26 @@ This application is build using the following technologies
   ```
   $ npm install
   ```
-4. To run the application in your browser use the following command 
+4. To run the application in your browser in development server use the following command 
   ```
   $ npm start
   ```
+
+
+## HOW TO DEPLOY IN STATIC SERVER
+1. In the command terminal, run the following command. This creates a build directory with a production build of the app.  You can set up your favorite HTTP server so that a visitor to your site is served index.html. To serve locally continue to step 2
+  ```
+  $ npm run build
+  ```
+2. Install `serve`
+  ```
+  $ npm install -g serve
+  $ serve -s build
+  ```
+  the app is served in your static site on the port 5000.
+
+[Other Solutions](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#other-solutions) to deploy your app can be found here 
+
 
 ## HOW TO TEST
 To run unittests for the application, use this command
