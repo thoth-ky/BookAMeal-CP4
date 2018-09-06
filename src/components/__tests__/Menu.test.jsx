@@ -2,8 +2,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 import sessionStorage from 'mock-local-storage';
 import fetchMock from 'fetch-mock';
-import Menu from './Menu';
-import { timeConverter } from '../common/helpers';
+import Menu from '../Menu';
+import { timeConverter } from '../../common/helpers';
 
 
 describe('Tests for Menu', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow} from 'enzyme';
 import fetchMock from 'fetch-mock';
 import sessionStorage from 'mock-local-storage';
-import SignOut from './SignOut';
+import SignOut from '../SignOut';
 
 describe ('Tests for signout', () => {
   it ('renders succesfully', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import fetchMock from 'fetch-mock';
 import sessionStorage from 'mock-local-storage';
-import Meals from './Meals';
+import Meals from '../Meals';
 
 describe('Tests for Meals', () => {
   it('renders meal component correctly', () => {

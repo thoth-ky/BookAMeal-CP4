@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 class NavBar extends Component {
   rightNav = () => {
+    // change navbar depending on authentication status
     const { isAuthenticated, username } = this.props
     if (isAuthenticated) {
       return (
@@ -28,6 +29,7 @@ class NavBar extends Component {
   }
 
   adminNav = () => {
+    // if isAdmin is set as true,  display link to meals
     const { isAdmin } = this.props
     if (isAdmin) {
       return (
@@ -56,9 +58,11 @@ class NavBar extends Component {
     );
   }
 }
+
 NavBar.propTypes = {
   isAdmin: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired,
-};
+}
+
 export default NavBar;
