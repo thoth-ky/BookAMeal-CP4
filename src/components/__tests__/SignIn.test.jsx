@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import fetchMock from 'fetch-mock';
 import sessionStorage from 'mock-local-storage';
-import SignIn from './SignIn';
+import SignIn from '../SignIn';
 
 describe('These are tests for Signin component', () => {
   it('test that signin renders correctly', () => {

@@ -51,7 +51,6 @@ class SignIn extends Component {
           }
           // const { from } = location.state || { from: { pathname: '/' } }
           this.setState({ redirectTo: from.pathname })
-          console.log(this.state, from)
         } else {
           // if there is an error display error alert
           this.setState({ alert: response.message })

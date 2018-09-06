@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow} from 'enzyme';
-import Navbar from './NavBar';
+import { shallow } from 'enzyme';
+import Navbar from '../NavBar';
 
 
 describe ('These are navbar tests', () => {
-  it ('renders navbar without crashing', () => {
+  it ('renders navbar correctly', () => {
     const wrapper = shallow(<Navbar />);
     const hcd = 'Hot Corner Delicacies'
     expect(wrapper.find('nav').length).toBe(1);

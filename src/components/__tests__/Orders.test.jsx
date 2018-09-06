@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import fetchMock from 'fetch-mock';
 import sessionStorage from 'mock-local-storage';
-import Orders from './Orders';
+import Orders from '../Orders';
 
 
 describe('Tests for Orders', () => {
