@@ -12,6 +12,8 @@ accounts which allow them to modify, delete some resources. The restaurant shoul
 This application is build using the following technologies
 1. Node.Js
 2. ReactJs
+3. Sweetalert
+
 
 
 ## HOW TO INSTALL
