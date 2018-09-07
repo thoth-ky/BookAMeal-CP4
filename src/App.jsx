@@ -17,8 +17,9 @@ import Menu from './components/Menu';
 import Meals from './components/Meals';
 import Orders from './components/Orders';
 
-
+// checks if user is authenticated
 const isAuthenticated = () => {
+  
   const accessToken = sessionStorage.getItem('access_token')
   try {
     const { exp } = decode(accessToken);
@@ -32,6 +33,8 @@ const isAuthenticated = () => {
   }
 }
 
+
+// defines private routes
 const PrivateRoute = ({ component: Compo, ...rest }) => (
   <Route
     {...rest}
@@ -41,6 +44,7 @@ const PrivateRoute = ({ component: Compo, ...rest }) => (
   />
 )
 
+// main app component
 class App extends Component {
   // default state
   constructor(props) {
