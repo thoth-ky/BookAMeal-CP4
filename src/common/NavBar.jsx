@@ -8,6 +8,7 @@ class NavBar extends Component {
     // change navbar depending on authentication status
     const { isAuthenticated, username } = this.props
     if (isAuthenticated) {
+      // if true
       return (
         <ul className="nav navbar-right navbar-nav">
           <li>
@@ -20,6 +21,7 @@ class NavBar extends Component {
         </ul>
       )
     }
+    // if false     
     return (
       <ul className="nav navbar-right navbar-nav">
         <li><NavLink to="/signup"> Sign Up </NavLink></li>
@@ -32,10 +34,12 @@ class NavBar extends Component {
     // if isAdmin is set as true,  display link to meals
     const { isAdmin } = this.props
     if (isAdmin) {
+      // is admin
       return (
         <li><NavLink to="/meals"> Meals</NavLink></li>
       )
     }
+    // not admin     
     return null
   }
 
