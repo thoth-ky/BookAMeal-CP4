@@ -203,7 +203,7 @@ class Meals extends Component {
     // display meals using the Meal function
     const { meals } = this.state
     const mealNode = meals.map(meal => (
-      <this.Meal meal={meal} />))
+      <this.Meal meal={meal} key={meal.meal_id} />))
     return (
       <Well>
         { this.showAlert() }

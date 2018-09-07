@@ -158,7 +158,7 @@ class Menu extends Component {
     }
     // go through all meals
     const menuNode = menu_meals.map(meal => (
-      <this.Meal meal={meal} />))
+      <this.Meal meal={meal} key={meal.meal_id} />))
 
     return (
       <Well>
