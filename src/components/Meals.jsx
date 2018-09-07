@@ -21,11 +21,13 @@ class Meals extends Component {
   }
 
   handleChange = (event) => {
+    // update user input into state
     event.preventDefault()
     this.setState({ [event.target.name]: event.target.value })
   }
 
   getMeals = () => {
+    // do a fetch request to get all meals
     const access_token = sessionStorage.getItem('access_token')
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/meals'
 
@@ -53,10 +55,12 @@ class Meals extends Component {
   }
 
   createMeal = (event) => {
+    // send a request to create new meal
     event.preventDefault();
     const access_token = sessionStorage.getItem('access_token')
     const { name, price, description } = this.state
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/meals'
+    // confirm user action
     swal({
       title: 'Are you sure you want to create a new meal?',
       icon: 'warning',
@@ -97,11 +101,12 @@ class Meals extends Component {
   }
 
   addToMenu = (e) => {
+    // add meal to menu
     e.preventDefault()
     const meal_id = e.currentTarget.dataset.id
     const url = 'https://bookameal-staging.herokuapp.com/api/v2/menu'
     const access_token = sessionStorage.getItem('access_token')
-
+    // confirm user action
     swal({
       title: `Are you sure you want to add meal #${meal_id} to Menu?`,
       icon: 'warning',
@@ -110,6 +115,7 @@ class Meals extends Component {
     })
       .then((willCreate) => {
         if (willCreate) {
+          // request user to enter date
           swal({
             text: 'Enter date(DD-MM-YYYY):',
             content: 'input',
@@ -150,6 +156,7 @@ class Meals extends Component {
   }
 
   showDetail = (e) => {
+    // display modal to show current meal details
     e.preventDefault()
     const { id, name, description, price } = e.currentTarget.dataset
     const meal_id = id
@@ -338,6 +345,7 @@ class Meals extends Component {
 
   render = () => {
     const { error, meal_id, show_modal, name, description, price } = this.state
+    // check if there is an error and display
     if (error) {
       return (
         <div className="w3-display-middle">
