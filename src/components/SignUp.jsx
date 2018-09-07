@@ -17,13 +17,12 @@ class SignUp extends Component {
 
   handleChange = (event) => {
     // update state as user input changes in form
-    event.preventDefault();
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = () => {
     // send registration request to api
-    event.preventDefault();
+    // event.preventDefault();
     const { password, password1, username, email } = this.state
     // check if passwords match and are sufficient in length
     if (password === password1 && password.length >= 8) {

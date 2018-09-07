@@ -20,29 +20,31 @@ describe('These are tests for signup component', () => {
   });
 
   it('test it returns error message if passwords dont match', () => {
-    const wrapper = mount(<SignUp />);
+    const wrapper = shallow(<SignUp />);
+
+    // test handlChange updates state
+    wrapper.find('#username').simulate('change', { target: { value: 'test', name: 'username' } })
+    expect(wrapper.state('username')).toEqual('test');
+
     wrapper.setState({
       username: 'kyalo',
       email: 'kyalo@mail.com',
       password: 'kyalo123453',
       password1: 'kyalo12345',
     })
-    const form = wrapper.find('form');
-    form.simulate('submit')
+    wrapper.instance().handleSubmit()
     expect(wrapper.state('alert')).toEqual('Ensure passwords match and use more than 8 characters');
   })
 
   it('test submit works', () => {
-    fetchMock.post('https://bookameal-staging.herokuapp.com/api/v2/signup', { access_token: 'valid access token', message: 'User registration succesful, and logged in.' });
-    const wrapper = mount(<SignUp />);
+    const wrapper = shallow(<SignUp />);
     wrapper.setState(
       {
         username: 'kyalo', email: 'kyalo@mail.com', password: 'kyalo12345', password1: 'kyalo12345', submitted: null,
       },
     )
-    const form = wrapper.find('form')
-    expect(wrapper.state().submitted).toEqual(null)
-    form.simulate('submit')
+    fetchMock.post('https://bookameal-staging.herokuapp.com/api/v2/signup', { access_token: 'valid access token', message: 'User registration succesful, and logged in.' });
+    wrapper.instance().handleSubmit()
     expect(wrapper.state().submitted).toEqual(true)
 
     fetchMock.restore()
